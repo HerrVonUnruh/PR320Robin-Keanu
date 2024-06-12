@@ -6,6 +6,7 @@
     <ClCompile Include="fightercomponent.cpp" />
     <ClCompile Include="combatsystem.cpp" />
     <ClCompile Include="inputcomponent.cpp" />
+    <ClCompile Include="uiDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component.h" />
@@ -13,5 +14,6 @@
     <ClInclude Include="fightercomponent.h" />
     <ClInclude Include="combatsystem.h" />
     <ClInclude Include="inputcomponent.h" />
+    <ClInclude Include="uiDriver.h" />
   </ItemGroup>
 </Project>

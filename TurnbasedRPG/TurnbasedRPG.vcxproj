@@ -24,6 +24,7 @@
     <ClCompile Include="fightercomponent.cpp" />
     <ClCompile Include="inputcomponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="uiDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="combatsystem.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="fightercomponent.h" />
     <ClInclude Include="inputcomponent.h" />
+    <ClInclude Include="uiDriver.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
