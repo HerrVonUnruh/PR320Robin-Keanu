@@ -20,6 +20,7 @@ int main()
         system("cls");
         uiDriver uiDriver;
         uiDriver.displayMonster();
+        uiDriver.displayBoss();
 
         
         system("pause");
