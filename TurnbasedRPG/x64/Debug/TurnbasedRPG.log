@@ -1,0 +1,4 @@
+﻿  uiDriver.cpp
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\uiDriver.h(99,29): warning C4566: Das durch den universellen Zeichennamen "\u25E3" dargestellte Zeichen kann in der aktuellen Codepage (1252) nicht dargestellt werden.
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\uiDriver.h(99,29): warning C4566: Das durch den universellen Zeichennamen "\u25E2" dargestellte Zeichen kann in der aktuellen Codepage (1252) nicht dargestellt werden.
+  TurnbasedRPG.vcxproj -> C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe
