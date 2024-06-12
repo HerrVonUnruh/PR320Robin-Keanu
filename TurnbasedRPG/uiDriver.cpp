@@ -4,14 +4,17 @@
 
 void uiDriver::displayMonster() 
 {
-    int firstMonster = rand() % 10;
-    int secondMonster = rand() % 10;
-    int thirdMonster = rand() % 10;
-    int fourthMonster = rand() % 10;
+    int maxMonsterAmount = (sizeof(monsterGrafix) / sizeof(monsterGrafix[0]));
+    int maxLinesPerMonster = (sizeof(monsterGrafix[0]) / sizeof(monsterGrafix[0][0]));
 
-    std::string lines[7];
+    int firstMonster = rand() % maxMonsterAmount;
+    int secondMonster = rand() % maxMonsterAmount;
+    int thirdMonster = rand() % maxMonsterAmount;
+    int fourthMonster = rand() % maxMonsterAmount;
 
-    for (int i = 0; i < 7; i++)
+    std::string* lines = new std::string[maxLinesPerMonster];
+
+    for (int i = 0; i < maxLinesPerMonster; i++)
     {
         lines[i] += monsterGrafix[firstMonster][i];
         lines[i] += monsterGrafix[secondMonster][i];
@@ -21,7 +24,7 @@ void uiDriver::displayMonster()
         lines[i] += "|";
     }
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < maxLinesPerMonster; i++)
     {
         std::cout << lines[i] << std::endl;
     }
