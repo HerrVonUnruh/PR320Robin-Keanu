@@ -11,12 +11,12 @@ public:
 
     std::map<std::string, int> fighterStats =
     {
-        {"Strength", -1},
-        {"Dexterity", -1},
-        {"Constitution", -1},
-        {"MaxHitpoints", -1},
-        {"Hitpoints", -1},
-        {"Combat", -1},
-        {"Initiative", -1}
+        {"1_show_Hitpoints", -1},
+        {"2_hide_MaxHitpoints", -1},
+        {"3_show_Strength", -1},
+        {"4_show_Dexterity", -1},
+        {"5_show_Initiative", -1},
+        {"6_hide_Constitution", -1},
+        {"7_hide_Combat", -1}
     };
 };

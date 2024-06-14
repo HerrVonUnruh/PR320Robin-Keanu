@@ -37,11 +37,11 @@ int main()
         FighterComponent fc3;
         FighterComponent fc4;
 
-        fc3.fighterStats.find("Constitution")->second = 482938479;
+        //fc3.fighterStats.find("Constitution")->second = 482938479;
 
         std::map<std::string, int> fcs[] = { fc.fighterStats, fc2.fighterStats, fc3.fighterStats, fc4.fighterStats};
 
-        uiDriver.displayMonsterStats(fcs, 4);
+        uiDriver.displayMonsterStats(fcs, 3);
 
         uiDriver.drawBottomLine();
         

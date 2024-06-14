@@ -60,7 +60,7 @@ void uiDriver::displayMonster(int monsterIDs[], int monsterAmount)
 
 void uiDriver::displayMonsterStats(std::map<std::string, int> fighterStats[], int fighterStatsAmount)
 {
-    int maxLinesPerStats = (sizeof(fighterStats[0]) / sizeof(fighterStats[0][0]));
+    int maxLinesPerStats = fighterStats[0].size();
 
     std::string* lines = new std::string[maxLinesPerStats];
 
@@ -71,7 +71,16 @@ void uiDriver::displayMonsterStats(std::map<std::string, int> fighterStats[], in
             auto currentElement = fighterStats[i].begin();
             std::advance(currentElement, j);
 
-            lines[j] += "|" + currentElement->first + ": " + std::to_string(currentElement->second);
+            if (currentElement->first.substr(2, 4) == "show")
+            {
+                std::string stringToDisplay = currentElement->first.substr(7, currentElement->first.size());
+
+                lines[j] += "|" + stringToDisplay + ": " + std::to_string(currentElement->second);
+            }
+            else
+            {
+                lines[j] += "|";
+            }
 
             lines[j].resize(26 * (i + 1), ' ');
         }
