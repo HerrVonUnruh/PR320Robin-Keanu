@@ -4,6 +4,9 @@
 #include "entity.h"
 #include "fightercomponent.h"
 #include "uiDriver.h"
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
+#include <map>
 
 int main()
 {
@@ -19,9 +22,28 @@ int main()
     {
         system("cls");
         uiDriver uiDriver;
-        uiDriver.displayMonster();
-        uiDriver.displayBoss();
 
+        int monsterIDs[] = { rand() % 11, rand() % 11, rand() % 11 , rand() % 11 };
+        int bossID = rand() % 3;
+
+        //display shit
+        uiDriver.drawTopLine();
+
+        uiDriver.displayMonster(monsterIDs, 4);
+        uiDriver.displayBoss(bossID);
+
+        FighterComponent fc;
+        FighterComponent fc2;
+        FighterComponent fc3;
+        FighterComponent fc4;
+
+        fc3.fighterStats.find("Constitution")->second = 482938479;
+
+        std::map<std::string, int> fcs[] = { fc.fighterStats, fc2.fighterStats, fc3.fighterStats, fc4.fighterStats};
+
+        uiDriver.displayMonsterStats(fcs, 4);
+
+        uiDriver.drawBottomLine();
         
         system("pause");
     }

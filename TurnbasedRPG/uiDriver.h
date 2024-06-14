@@ -1,12 +1,19 @@
 ﻿#pragma once
 #include <iostream>
 #include <string>
+#include <map>
 
 class uiDriver
 {
 public:
-    void displayMonster();
-    void displayBoss();
+    void displayMonster(int monsterIDs[], int monsterAmount);
+    void displayBoss(int bossID);
+
+    void displayMonsterStats(std::map<std::string, int> fighterStats[], int fighterStatsAmount);
+
+    void drawTopLine();
+    void drawBottomLine();
+
 
     std::string topLine = "/=======================================================================================================\\";
     std::string bottomLine = "\\=======================================================================================================/";
@@ -58,7 +65,15 @@ public:
        }
     };
 
-    std::string monsterGrafix[10][7] = {
+    std::string monsterGrafix[11][7] = {
+        { "|                         ",
+          "|                         ",
+          "|                         ",
+          "|                         ",
+          "|                         ",
+          "|                         ",
+          "|_________________________" },
+
         // Monster 1
         { "|Big Bad Enemy            ",
           "|                         ",
