@@ -11,12 +11,29 @@ public:
 
     void displayMonsterStats(std::map<std::string, int> fighterStats[], int fighterStatsAmount);
 
+    std::string* generatePlayerStatsLines(std::map<std::string, int> fighterStats, int& arraySize);
+
+    //void drawMenu(std::string &playerStatLines, std::string tagLine, std::string menuItems[], int menuItemCount);
+
+
     void drawTopLine();
+    void drawCenterLine();
     void drawBottomLine();
 
 
     std::string topLine = "/=======================================================================================================\\";
+    std::string centerLine = "|=======================================================================================================|";
     std::string bottomLine = "\\=======================================================================================================/";
+
+    std::string playerGrafix[7] = {
+        "You              ",
+        "________         ",
+        ") .  . (         ",
+        "\\______/         ",
+        "    |            ",
+        "                 ",
+        "                 "
+    };
 
     std::string bossGrafix[3][13] = {
        { "|Infant Panda                                                                                           ",
@@ -164,4 +181,8 @@ public:
                             "|                         ",
                             "|_________________________" }
     };
+
+private:
+    int charactersPerStatField = 26;
+    int characterAmountForPlayerStats = 52;
 };

@@ -82,14 +82,52 @@ void uiDriver::displayMonsterStats(std::map<std::string, int> fighterStats[], in
                 lines[j] += "|";
             }
 
-            lines[j].resize(26 * (i + 1), ' ');
+            lines[j].resize(charactersPerStatField * (i + 1), ' ');
         }
     }
 
     for (int i = 0; i < maxLinesPerStats; i++)
     {
+        while (lines[i].size() < charactersPerStatField * 4)
+        {
+            lines[i] += "|" + std::string(charactersPerStatField - 1, ' ');
+        }
+
         std::cout << lines[i] + "|" << std::endl;
     }
+}
+
+
+std::string* uiDriver::generatePlayerStatsLines(std::map<std::string, int> fighterStats, int& arraySize)
+{
+    int maxLinesPerStats = fighterStats.size();
+
+    std::string* lines = new std::string[maxLinesPerStats];
+
+    for (int j = 0; j < maxLinesPerStats; j++)
+    {
+        auto currentElement = fighterStats.begin();
+        std::advance(currentElement, j);
+
+        if (currentElement->first.substr(2, 4) == "show")
+        {
+            std::string stringToDisplay = currentElement->first.substr(7, currentElement->first.size());
+
+            lines[j] += "|" + stringToDisplay + ": " + std::to_string(currentElement->second);
+        }
+        else
+        {
+            lines[j] += "|";
+        }
+
+        lines[j].resize(characterAmountForPlayerStats, ' ');
+
+        lines[j].replace(characterAmountForPlayerStats - playerGrafix[0].size(), playerGrafix[0].size(), playerGrafix[j]);
+
+        arraySize++;
+    }
+
+    return lines;
 }
 
 void uiDriver::displayBoss(int bossID)
@@ -117,6 +155,11 @@ void uiDriver::displayBoss(int bossID)
 void uiDriver::drawTopLine()
 {
     std::cout << uiDriver::topLine << std::endl;
+}
+
+void uiDriver::drawCenterLine()
+{
+    std::cout << uiDriver::centerLine << std::endl;
 }
 
 void uiDriver::drawBottomLine()

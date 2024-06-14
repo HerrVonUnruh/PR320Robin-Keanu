@@ -30,7 +30,7 @@ int main()
         uiDriver.drawTopLine();
 
         uiDriver.displayMonster(monsterIDs, 4);
-        uiDriver.displayBoss(bossID);
+        //uiDriver.displayBoss(bossID);
 
         FighterComponent fc;
         FighterComponent fc2;
@@ -41,7 +41,16 @@ int main()
 
         std::map<std::string, int> fcs[] = { fc.fighterStats, fc2.fighterStats, fc3.fighterStats, fc4.fighterStats};
 
-        uiDriver.displayMonsterStats(fcs, 3);
+        uiDriver.displayMonsterStats(fcs, 4);
+
+        uiDriver.drawCenterLine();
+
+        int lineAmount = 0;
+        std::string* lines = uiDriver.generatePlayerStatsLines(fc.fighterStats, lineAmount);
+        for (int i = 0; i < lineAmount; i++)
+        {
+            std::cout << lines[i] << std::endl;
+        }
 
         uiDriver.drawBottomLine();
         
