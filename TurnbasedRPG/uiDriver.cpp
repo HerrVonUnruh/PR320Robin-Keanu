@@ -4,6 +4,7 @@
 #include <iterator>
 #include <conio.h>
 #include <iostream>
+#include <windows.h>
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -136,43 +137,116 @@ std::string* uiDriver::generatePlayerStatsLines(std::map<std::string, int> fight
     return lines;
 }
 
-std::string uiDriver::drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount)
+std::string uiDriver::drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount, int& lastMenuIndex, bool setMenuIndex)
 {
     int inputKeycode = 0;
+    int menuIndex = 0;
 
-    playerStatLines[0] += "|" + tagLine;
+    std::string selectedMenuItem = "none";
 
-    for (int i = 0; i < lineAmount; i++)
+    if (setMenuIndex)
     {
-        if (i != 0)
-        {
-            playerStatLines[i] += "|";
-        }
-
-        playerStatLines[i].resize(characterAmountForPlayerStats * 2, ' ');
-
-        std::cout << playerStatLines[i] + "|" << std::endl;
+        menuIndex = lastMenuIndex;
     }
 
-    drawBottomLine();
 
-    bool hasPressedUpKey = false;
-    while (!hasPressedUpKey) {
+    bool pressedKey = false;
+    while (!pressedKey) {
+        playerStatLines[0] += "|" + tagLine;
+
+        for(int i = 0; i < menuItemCount && i < 4; i++)
+        {
+            playerStatLines[i + 2] += "|     " + menuItems[i];
+        }
+
+        playerStatLines[menuIndex + 2].replace(characterAmountForPlayerStats + 3, 2, "->");
+
+        for (int i = 0; i < lineAmount; i++)
+        {
+            playerStatLines[i].replace(characterAmountForPlayerStats, 1, "|");
+            playerStatLines[i].resize(characterAmountForPlayerStats * 2, ' ');
+
+            std::cout << playerStatLines[i] + "|" << std::endl;
+        }
+
+        drawBottomLine();
+
         switch ((inputKeycode = _getch()))
         {
             case KEY_UP:
-                hasPressedUpKey = true;
+                menuIndex--;
+
+                if (menuIndex < 0)
+                {
+                    menuIndex = menuItemCount - 1;
+                }
                break;
 
             case KEY_DOWN:
+                menuIndex++;
+
+                if (menuIndex >= menuItemCount)
+                {
+                   menuIndex = 0;
+                }
                break;
 
             case KEY_ENTER:
+                pressedKey = true;
                 break;
+
+            default:
+                break;
+        }
+
+        int x = 0;
+        int y = 0;
+        getCursorPosition(x, y);
+
+        setCursorPosition(x, y - 8);
+
+        for (int i = 0; i < 4; i++)
+        {
+            playerStatLines[i + 2].replace(characterAmountForPlayerStats + 1, 5, "     ");
         }
     }
 
-    return "fick dich";
+    return selectedMenuItem;
+}
+
+void uiDriver::setCursorPosition(int x, int y) {
+    // Get the console handle
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hConsole == INVALID_HANDLE_VALUE) {
+        std::cerr << "Error getting console handle." << std::endl;
+        return;
+    }
+
+    // Set the cursor position
+    COORD position;
+    position.X = x;
+    position.Y = y;
+    SetConsoleCursorPosition(hConsole, position);
+}
+
+void uiDriver::getCursorPosition(int& x, int& y) {
+    // Get the console handle
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hConsole == INVALID_HANDLE_VALUE) {
+        std::cerr << "Error getting console handle." << std::endl;
+        return;
+    }
+
+    // Get console screen buffer info
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) {
+        std::cerr << "Error getting console screen buffer info." << std::endl;
+        return;
+    }
+
+    // Extract cursor position
+    x = csbi.dwCursorPosition.X;
+    y = csbi.dwCursorPosition.Y;
 }
 
 void uiDriver::displayBoss(int bossID)

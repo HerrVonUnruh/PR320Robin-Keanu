@@ -13,7 +13,7 @@ public:
 
     std::string* generatePlayerStatsLines(std::map<std::string, int> fighterStats, int& lineAmount);
 
-    std::string drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount);
+    std::string drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount, int &lastMenuIndex, bool setMenuIndex = false);
 
 
     void drawTopLine();
@@ -181,6 +181,9 @@ public:
                             "|                         ",
                             "|_________________________" }
     };
+
+    void setCursorPosition(int x, int y);
+    void getCursorPosition(int &x, int &y);
 
 private:
     int charactersPerStatField = 26;
