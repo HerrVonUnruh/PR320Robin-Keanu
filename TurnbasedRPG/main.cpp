@@ -26,7 +26,7 @@ int main()
         int monsterIDs[] = { rand() % 11, rand() % 11, rand() % 11 , rand() % 11 };
         int bossID = rand() % 3;
 
-        //display shit
+
         uiDriver.drawTopLine();
 
         uiDriver.displayMonster(monsterIDs, 4);
@@ -36,25 +36,17 @@ int main()
         FighterComponent fc2;
         FighterComponent fc3;
         FighterComponent fc4;
-
-        //fc3.fighterStats.find("Constitution")->second = 482938479;
-
         std::map<std::string, int> fcs[] = { fc.fighterStats, fc2.fighterStats, fc3.fighterStats, fc4.fighterStats};
-
         uiDriver.displayMonsterStats(fcs, 4);
 
         uiDriver.drawCenterLine();
 
+
         int lineAmount = 0;
         std::string* lines = uiDriver.generatePlayerStatsLines(fc.fighterStats, lineAmount);
-        for (int i = 0; i < lineAmount; i++)
-        {
-            std::cout << lines[i] << std::endl;
-        }
 
-        uiDriver.drawBottomLine();
-        
-        system("pause");
+        std::string menuItems[] = { "menu item", "item menu" };
+        uiDriver.drawMenu(lines, lineAmount, "cool menu", menuItems, 2);
     }
 
     return 0;

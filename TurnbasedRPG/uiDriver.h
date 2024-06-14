@@ -11,9 +11,9 @@ public:
 
     void displayMonsterStats(std::map<std::string, int> fighterStats[], int fighterStatsAmount);
 
-    std::string* generatePlayerStatsLines(std::map<std::string, int> fighterStats, int& arraySize);
+    std::string* generatePlayerStatsLines(std::map<std::string, int> fighterStats, int& lineAmount);
 
-    //void drawMenu(std::string &playerStatLines, std::string tagLine, std::string menuItems[], int menuItemCount);
+    std::string drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount);
 
 
     void drawTopLine();

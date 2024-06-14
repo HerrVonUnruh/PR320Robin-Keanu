@@ -2,6 +2,12 @@
 #include <cstdlib> // For rand() and srand()
 #include <ctime>   // For time()
 #include <iterator>
+#include <conio.h>
+#include <iostream>
+
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_ENTER 13
 
 void uiDriver::displayMonster(int monsterIDs[], int monsterAmount)
 {
@@ -128,6 +134,45 @@ std::string* uiDriver::generatePlayerStatsLines(std::map<std::string, int> fight
     }
 
     return lines;
+}
+
+std::string uiDriver::drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount)
+{
+    int inputKeycode = 0;
+
+    playerStatLines[0] += "|" + tagLine;
+
+    for (int i = 0; i < lineAmount; i++)
+    {
+        if (i != 0)
+        {
+            playerStatLines[i] += "|";
+        }
+
+        playerStatLines[i].resize(characterAmountForPlayerStats * 2, ' ');
+
+        std::cout << playerStatLines[i] + "|" << std::endl;
+    }
+
+    drawBottomLine();
+
+    bool hasPressedUpKey = false;
+    while (!hasPressedUpKey) {
+        switch ((inputKeycode = _getch()))
+        {
+            case KEY_UP:
+                hasPressedUpKey = true;
+               break;
+
+            case KEY_DOWN:
+               break;
+
+            case KEY_ENTER:
+                break;
+        }
+    }
+
+    return "fick dich";
 }
 
 void uiDriver::displayBoss(int bossID)
