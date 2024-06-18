@@ -45,10 +45,19 @@ int main()
         int lineAmount = 0;
         std::string* lines = uiDriver.generatePlayerStatsLines(fc.fighterStats, lineAmount);
 
-#
+
         int lastMenuIndex = 0;
-        std::string menuItems[] = { "menu item", "item menu", "dildi", "hans" };
-        uiDriver.drawMenu(lines, lineAmount, "cool menu", menuItems, 4, lastMenuIndex);
+        int lasteMenuIndexOffset = 0;
+        std::string menuItems[] = { "menu item", "item menu", "dildi", "hans", "jeff", "huckleberry fin", "pipikaka" };
+        std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "cool menu", menuItems, 7, lastMenuIndex, lasteMenuIndexOffset);
+
+
+        int x = 0;
+        int y = 0;
+        uiDriver.getCursorPosition(x, y);
+        uiDriver.setCursorPosition(x, y + 8);
+        std::cout << "picked menu item: " + pickedMenuItem << std::endl;
+        system("pause");
     }
 
     return 0;

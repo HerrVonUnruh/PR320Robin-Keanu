@@ -13,7 +13,7 @@ public:
 
     std::string* generatePlayerStatsLines(std::map<std::string, int> fighterStats, int& lineAmount);
 
-    std::string drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount, int &lastMenuIndex, bool setMenuIndex = false);
+    std::string drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount, int &lastMenuIndexOffset, int &lastMenuIndex, bool setMenuIndexAndOffset = false);
 
 
     void drawTopLine();

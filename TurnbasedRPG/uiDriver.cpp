@@ -1,4 +1,4 @@
-#include "uiDriver.h"
+﻿#include "uiDriver.h"
 #include <cstdlib> // For rand() and srand()
 #include <ctime>   // For time()
 #include <iterator>
@@ -137,29 +137,49 @@ std::string* uiDriver::generatePlayerStatsLines(std::map<std::string, int> fight
     return lines;
 }
 
-std::string uiDriver::drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount, int& lastMenuIndex, bool setMenuIndex)
+std::string uiDriver::drawMenu(std::string* playerStatLines, int lineAmount, std::string tagLine, std::string menuItems[], int menuItemCount, int& lastMenuIndexOffset, int& lastMenuIndex, bool setMenuIndexAndOffset)
 {
     int inputKeycode = 0;
     int menuIndex = 0;
+    int menuIndexOffset = 0;
 
     std::string selectedMenuItem = "none";
 
-    if (setMenuIndex)
+    if (setMenuIndexAndOffset)
     {
         menuIndex = lastMenuIndex;
+        menuIndexOffset = lastMenuIndexOffset;
     }
-
 
     bool pressedKey = false;
     while (!pressedKey) {
         playerStatLines[0] += "|" + tagLine;
 
-        for(int i = 0; i < menuItemCount && i < 4; i++)
+        for (int i = 1; i < lineAmount; i++) {
+            playerStatLines[i] = playerStatLines[i].substr(0, characterAmountForPlayerStats) + " ";
+        }
+
+        for (int i = 0; i < 4; i++)
         {
-            playerStatLines[i + 2] += "|     " + menuItems[i];
+            if (i + menuIndexOffset < menuItemCount) {
+                playerStatLines[i + 2] += "     " + menuItems[i + menuIndexOffset];
+            }
+            else {
+                playerStatLines[i + 2] += "     ";
+            }
         }
 
         playerStatLines[menuIndex + 2].replace(characterAmountForPlayerStats + 3, 2, "->");
+
+        if (menuIndexOffset > 0)
+        {
+            playerStatLines[1].replace(characterAmountForPlayerStats, 2, "           ^");
+        }
+
+        if (menuIndexOffset + 4 < menuItemCount)
+        {
+            playerStatLines[6].replace(characterAmountForPlayerStats, 2, "           v");
+        }
 
         for (int i = 0; i < lineAmount; i++)
         {
@@ -173,46 +193,83 @@ std::string uiDriver::drawMenu(std::string* playerStatLines, int lineAmount, std
 
         switch ((inputKeycode = _getch()))
         {
-            case KEY_UP:
-                menuIndex--;
+        case KEY_UP:
+            if (menuIndex == 0 && menuIndexOffset == 0)
+            {
+                break;
+            }
 
-                if (menuIndex < 0)
+            menuIndex--;
+
+            if (menuIndex < 0)
+            {
+                if (menuIndexOffset > 0)
+                {
+                    menuIndex = 0;
+                    menuIndexOffset--;
+                }
+                else
                 {
                     menuIndex = menuItemCount - 1;
+                    if (menuItemCount > 4)
+                    {
+                        menuIndexOffset = menuItemCount - 4;
+                    }
                 }
-               break;
+            }
+            break;
 
-            case KEY_DOWN:
-                menuIndex++;
+        case KEY_DOWN:
+            if (menuIndex == 4 && menuIndexOffset == menuItemCount - 4)
+            {
+                break;
+            }
 
-                if (menuIndex >= menuItemCount)
+            menuIndex++;
+
+            if (menuIndex == 4 && menuItemCount > 4)
+            {
+                menuIndexOffset++;
+                menuIndex--;
+
+                if (menuIndexOffset >= menuItemCount - 4)
                 {
-                   menuIndex = 0;
+                    menuIndexOffset = menuItemCount - 4;
                 }
-               break;
+            }
+            else if (menuIndex >= menuItemCount)
+            {
+                menuIndex = menuItemCount - 1;
+            }
+            break;
 
-            case KEY_ENTER:
-                pressedKey = true;
-                break;
+        case KEY_ENTER:
+            pressedKey = true;
+            selectedMenuItem = menuItems[menuIndex + menuIndexOffset];
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
 
         int x = 0;
         int y = 0;
         getCursorPosition(x, y);
-
         setCursorPosition(x, y - 8);
 
+        
         for (int i = 0; i < 4; i++)
         {
-            playerStatLines[i + 2].replace(characterAmountForPlayerStats + 1, 5, "     ");
+            playerStatLines[i + 2].replace(characterAmountForPlayerStats + 3, 2, "  ");
         }
     }
 
+    lastMenuIndex = menuIndex;
+    lastMenuIndexOffset = menuIndexOffset;
+
     return selectedMenuItem;
 }
+
 
 void uiDriver::setCursorPosition(int x, int y) {
     // Get the console handle
