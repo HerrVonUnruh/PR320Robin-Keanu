@@ -2,6 +2,25 @@
 #include "component.h"
 #include <string>
 #include <map>
+#include <vector>
+
+
+enum combatManeuvers
+{
+    standartAttack,
+    powerStrike,
+    sweepingStrike
+};
+
+class weapon
+{
+public:
+    std::string name;
+    combatManeuvers combatManeuver;
+    int d6Amount;
+    int damage;
+    int combat;
+};
 
 class FighterComponent : public Component
 {
@@ -19,4 +38,8 @@ public:
         {"6_hide_Constitution", -1},
         {"7_hide_Combat", -1}
     };
+
+    weapon weapon;
+
+    std::vector<combatManeuvers> combatManeuvers;
 };

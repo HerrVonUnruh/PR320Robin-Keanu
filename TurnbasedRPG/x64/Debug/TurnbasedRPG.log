@@ -1,2 +1,7 @@
-﻿  main.cpp
-  TurnbasedRPG.vcxproj -> C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe
+﻿  combatsystem.cpp
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\fightercomponent.h(37,23): error C2327: "FighterComponent::weapon": Ist kein Typname, nicht statisch und kein Enumerator
+  fightercomponent.cpp
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\fightercomponent.h(37,23): error C2327: "FighterComponent::weapon": Ist kein Typname, nicht statisch und kein Enumerator
+  main.cpp
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\fightercomponent.h(37,23): error C2327: "FighterComponent::weapon": Ist kein Typname, nicht statisch und kein Enumerator
+  Code wird generiert...
