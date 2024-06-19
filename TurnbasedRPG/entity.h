@@ -3,6 +3,13 @@
 #include <map>
 #include "component.h"
 
+enum entityType
+{
+	player,
+	enemy,
+	boss
+};
+
 class Entity
 {
 public:
@@ -32,6 +39,8 @@ public:
 	}
 
 	void SendMessage(int id);
+
+	entityType entityType;
 
 private:
     Entity(Entity& other) = delete;

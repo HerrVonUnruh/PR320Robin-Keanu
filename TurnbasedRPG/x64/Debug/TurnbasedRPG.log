@@ -1,7 +1,80 @@
 ﻿  combatsystem.cpp
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\fightercomponent.h(37,23): error C2327: "FighterComponent::weapon": Ist kein Typname, nicht statisch und kein Enumerator
-  fightercomponent.cpp
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\fightercomponent.h(37,23): error C2327: "FighterComponent::weapon": Ist kein Typname, nicht statisch und kein Enumerator
-  main.cpp
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\fightercomponent.h(37,23): error C2327: "FighterComponent::weapon": Ist kein Typname, nicht statisch und kein Enumerator
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27): error C2259: "PlayerInputComponent": Abstrakte Klasse kann nicht erstellt werden.
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(21): message : Siehe Deklaration von "PlayerInputComponent"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27): message : aufgrund folgender Member:
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27): message : "Entity *InputComponent::GetTarget(void) const": ist abstrakt
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(16): message : Siehe Deklaration von "InputComponent::GetTarget"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\combatsystem.cpp(20): message : Siehe Verweis auf die gerade kompilierte Instanziierung "T *Entity::AddComponent<PlayerInputComponent>(void)" der Funktions-Vorlage.
+          with
+          [
+              T=PlayerInputComponent
+          ]
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27,23): error C2259: "PlayerInputComponent": Abstrakte Klasse kann nicht erstellt werden.
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(21): message : Siehe Deklaration von "PlayerInputComponent"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27,23): message : aufgrund folgender Member:
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27,23): message : "Entity *InputComponent::GetTarget(void) const": ist abstrakt
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(16): message : Siehe Deklaration von "InputComponent::GetTarget"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27): error C2259: "AIInputComponent": Abstrakte Klasse kann nicht erstellt werden.
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(28): message : Siehe Deklaration von "AIInputComponent"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27): message : aufgrund folgender Member:
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27): message : "Entity *InputComponent::GetTarget(void) const": ist abstrakt
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(16): message : Siehe Deklaration von "InputComponent::GetTarget"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\combatsystem.cpp(34): message : Siehe Verweis auf die gerade kompilierte Instanziierung "T *Entity::AddComponent<AIInputComponent>(void)" der Funktions-Vorlage.
+          with
+          [
+              T=AIInputComponent
+          ]
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27,23): error C2259: "AIInputComponent": Abstrakte Klasse kann nicht erstellt werden.
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(28): message : Siehe Deklaration von "AIInputComponent"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27,23): message : aufgrund folgender Member:
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\entity.h(27,23): message : "Entity *InputComponent::GetTarget(void) const": ist abstrakt
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\InputComponent.h(16): message : Siehe Deklaration von "InputComponent::GetTarget"
+  inputcomponent.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(681,47): error C2280: "std::unique_ptr<Entity,std::default_delete<Entity>>::unique_ptr(const std::unique_ptr<Entity,std::default_delete<Entity>> &)" : Es wurde versucht, auf eine gelöschte Funktion zu verweisen
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3237): message : Siehe Deklaration von "std::unique_ptr<Entity,std::default_delete<Entity>>::unique_ptr"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3237,5): message : "std::unique_ptr<Entity,std::default_delete<Entity>>::unique_ptr(const std::unique_ptr<Entity,std::default_delete<Entity>> &)": Die Funktion wurde explizit gelöscht.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1619): message : Siehe Verweis auf die gerade kompilierte Instanziierung "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::unique_ptr<Entity,std::default_delete<Entity>>&>(_Alloc &,_Objty *const ,std::unique_ptr<Entity,std::default_delete<Entity>> &)" der Funktions-Vorlage.
+          with
+          [
+              _Alloc=std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>,
+              _Ty=std::unique_ptr<Entity,std::default_delete<Entity>>,
+              _Objty=std::unique_ptr<Entity,std::default_delete<Entity>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1620): message : Siehe Verweis auf die gerade kompilierte Instanziierung "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::unique_ptr<Entity,std::default_delete<Entity>>&>(_Alloc &,_Objty *const ,std::unique_ptr<Entity,std::default_delete<Entity>> &)" der Funktions-Vorlage.
+          with
+          [
+              _Alloc=std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>,
+              _Ty=std::unique_ptr<Entity,std::default_delete<Entity>>,
+              _Objty=std::unique_ptr<Entity,std::default_delete<Entity>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1659): message : Siehe Verweis auf die gerade kompilierte Instanziierung "void std::_Uninitialized_backout_al<_Alloc>::_Emplace_back<std::unique_ptr<Entity,std::default_delete<Entity>>&>(std::unique_ptr<Entity,std::default_delete<Entity>> &)" der Funktions-Vorlage.
+          with
+          [
+              _Alloc=std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1659): message : Siehe Verweis auf die gerade kompilierte Instanziierung "void std::_Uninitialized_backout_al<_Alloc>::_Emplace_back<std::unique_ptr<Entity,std::default_delete<Entity>>&>(std::unique_ptr<Entity,std::default_delete<Entity>> &)" der Funktions-Vorlage.
+          with
+          [
+              _Alloc=std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(1641): message : Siehe Verweis auf die gerade kompilierte Instanziierung "std::unique_ptr<Entity,std::default_delete<Entity>> *std::_Uninitialized_copy<_Iter,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>>(const _InIt,const _InIt,std::unique_ptr<Entity,std::default_delete<Entity>> *,_Alloc &)" der Funktions-Vorlage.
+          with
+          [
+              _Iter=std::unique_ptr<Entity,std::default_delete<Entity>> *,
+              _InIt=std::unique_ptr<Entity,std::default_delete<Entity>> *,
+              _Alloc=std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(552): message : Siehe Verweis auf die gerade kompilierte Instanziierung "std::unique_ptr<Entity,std::default_delete<Entity>> *std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>>::_Ucopy<std::unique_ptr<Entity,std::default_delete<Entity>>*>(_Iter,_Iter,std::unique_ptr<Entity,std::default_delete<Entity>> *)" der Funktions-Vorlage.
+          with
+          [
+              _Iter=std::unique_ptr<Entity,std::default_delete<Entity>> *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(552): message : Siehe Verweis auf die gerade kompilierte Instanziierung "std::unique_ptr<Entity,std::default_delete<Entity>> *std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>>::_Ucopy<std::unique_ptr<Entity,std::default_delete<Entity>>*>(_Iter,_Iter,std::unique_ptr<Entity,std::default_delete<Entity>> *)" der Funktions-Vorlage.
+          with
+          [
+              _Iter=std::unique_ptr<Entity,std::default_delete<Entity>> *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(541): message : beim Kompilieren der Klasse Vorlage-Memberfunktion "std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>>::vector(const std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>> &)"
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(26): message : Siehe Verweis auf die gerade kompilierte Instanziierung "std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>>::vector(const std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>> &)" der Funktions-Vorlage.
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\combatsystem.h(18): message : Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "std::vector<std::unique_ptr<Entity,std::default_delete<Entity>>,std::allocator<std::unique_ptr<Entity,std::default_delete<Entity>>>>".
   Code wird generiert...

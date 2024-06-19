@@ -12,11 +12,10 @@ enum combatManeuvers
     sweepingStrike
 };
 
-class weapon
+struct weapon
 {
-public:
-    std::string name;
     combatManeuvers combatManeuver;
+    std::string name;
     int d6Amount;
     int damage;
     int combat;
@@ -39,7 +38,7 @@ public:
         {"7_hide_Combat", -1}
     };
 
-    weapon weapon;
+    weapon currentweapon;
 
-    std::vector<combatManeuvers> combatManeuvers;
+    std::vector<weapon> combatManeuvers;
 };

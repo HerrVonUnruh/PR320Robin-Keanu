@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 
+#include "entity.h"
 #include "combatsystem.h"
 #include "component.h"
 
@@ -21,13 +22,13 @@ class PlayerInputComponent : public InputComponent
 {
 public:
     virtual ~PlayerInputComponent();
-    virtual Entity* GetTarget() const override { return nullptr; } //query entities from m_CombatSystem
+    virtual Entity* GetTarget();// const override { return nullptr; } //query entities from m_CombatSystem
 };
 
 class AIInputComponent : public InputComponent
 {
 public:
     virtual ~AIInputComponent();
-    virtual Entity* GetTarget() const override { return nullptr; } //query entities from m_CombatSystem
+    virtual Entity* GetTarget();// const override { return nullptr; } //query entities from m_CombatSystem
 };
 
