@@ -185,6 +185,13 @@ public:
     void setCursorPosition(int x, int y);
     void getCursorPosition(int &x, int &y);
 
+    std::string getNameFromEnemy(int index) {
+        if (index < 0 || index >= 11) {
+            return "Invalid Index";
+        }
+        return monsterGrafix[index][0].substr(1); // Remove the leading '|' character
+    }
+
 private:
     int charactersPerStatField = 26;
     int characterAmountForPlayerStats = 52;

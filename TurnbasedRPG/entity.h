@@ -50,6 +50,7 @@ public:
 	void SendMessage(int id);
 
 	entityType entityType;
+	int entitySubType;
 
 private:
     Entity(Entity& other) = delete;
