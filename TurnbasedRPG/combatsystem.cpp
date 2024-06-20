@@ -22,6 +22,9 @@ void CombatSystem::Init()
     player->AddComponent<FighterComponent>();
     InputComponent* input = player->AddComponent<PlayerInputComponent>();
     input->SetCombatSystem(this);
+
+    player->entityType = entityType::player;
+
     _entities.push_back(std::move(player));
     _player = player.get();
 };
@@ -39,7 +42,7 @@ void CombatSystem::Update()
         input->SetCombatSystem(this);
 
         enemy->entityType = entityType::enemy;
-        enemy->entitySubType = i + 2; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
+        enemy->entitySubType = i + 4; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
 
         _entities.push_back(std::move(enemy));
     }
@@ -49,16 +52,12 @@ void CombatSystem::Update()
         Entity* currentEntity = _entities[i].get()->GetComponent<InputComponent>()->GetTarget();
         if (_entities[i].get()->entityType == entityType::player)
         {
-
             uiDriver uiDriver;
             std::cout << uiDriver.getNameFromEnemy(currentEntity->entitySubType) << std::endl;
-            std::cout << "Penis" << std::endl;
             //HIER STEHT EIN KOMMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!! <3
-
+            //hier auch <3 -kc
         }
     }
-
-    std::cout << "amount of loaded Entities: " + std::to_string(_entities.size()) << std::endl;
 
     //Sort by initiative
     //Query input component and ask for target using GetComponent<InputComponent>()

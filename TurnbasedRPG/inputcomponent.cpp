@@ -43,22 +43,6 @@ Entity* PlayerInputComponent::GetTarget() const
 {
     std::vector<std::unique_ptr<Entity>>& allEntities = const_cast<CombatSystem*>(_combatSystem)->GetEntities();
 
-    // Neue Liste für Player-Entities
-    std::vector<std::unique_ptr<Entity>> players;
-
-    // Entfernen Sie Player-Entities aus allEntities und verschieben Sie sie zu players
-    allEntities.erase(
-        std::remove_if(allEntities.begin(), allEntities.end(),
-            [&players](std::unique_ptr<Entity>& entity) {
-                if (entity->entityType == entityType::player) {
-                    players.push_back(std::move(entity));
-                    return true; // Markieren Sie für das Entfernen aus allEntities
-                }
-                return false;
-            }),
-        allEntities.end()
-    );
-
     std::map<std::string, int> playerFighterStats = this->GetOwner().GetComponent<FighterComponent>()->fighterStats;
     uiDriver uiDriver;
 
@@ -68,30 +52,30 @@ Entity* PlayerInputComponent::GetTarget() const
     int lastMenuIndex = 0;
     int lasteMenuIndexOffset = 0;
 
-    std::string* menuItems = new std::string[allEntities.size()];
+
+    std::map<std::string, Entity*> nameEntityMap;
 
     for (int i = 0; i < allEntities.size(); i++)
     {
         if (allEntities[i]->entityType == entityType::enemy)
         {
-            menuItems[i] = uiDriver.getNameFromEnemy(allEntities[i]->entitySubType);
+            nameEntityMap[uiDriver.getNameFromEnemy(allEntities[i]->entitySubType)] = allEntities[i].get();
         }
     }
 
-    std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Target :", menuItems, allEntities.size(), lastMenuIndex, lasteMenuIndexOffset);
+    std::string* menuItems = new std::string[nameEntityMap.size()];
 
-    int index = -1;
+    int index = 0;
+    for (auto it = nameEntityMap.begin(); it != nameEntityMap.end(); ++it) 
+    {
+        const std::string& key = it->first;
+        const Entity* entityPtr = it->second;
 
-    // Iterate through the array to find the target string
-    for (size_t i = 0; i < allEntities.size(); ++i) {
-        if (menuItems[i] == pickedMenuItem) {
-            index = i;
-            break;
-        }
+        menuItems[index] = key;
+        ++index;
     }
 
-    delete[] menuItems; // Speicher freigeben
-    delete[] lines; // Speicher freigeben
+    std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Target :", menuItems, nameEntityMap.size(), lastMenuIndex, lasteMenuIndexOffset);
 
-    return allEntities[index].get();
+    return nameEntityMap.at(pickedMenuItem);
 }
