@@ -6,22 +6,22 @@
 InputComponent::InputComponent()
     : _combatSystem(nullptr)
 {
-    
+
 }
 
 InputComponent::~InputComponent()
 {
-    
+
 }
 
 PlayerInputComponent::~PlayerInputComponent()
 {
-    
+
 }
 
 AIInputComponent::~AIInputComponent()
 {
-    
+
 }
 
 Entity* AIInputComponent::GetTarget() const
@@ -43,14 +43,21 @@ Entity* PlayerInputComponent::GetTarget() const
 {
     std::vector<std::unique_ptr<Entity>>& allEntities = const_cast<CombatSystem*>(_combatSystem)->GetEntities();
 
+    // Neue Liste für Player-Entities
+    std::vector<std::unique_ptr<Entity>> players;
 
+    // Entfernen Sie Player-Entities aus allEntities und verschieben Sie sie zu players
     allEntities.erase(
         std::remove_if(allEntities.begin(), allEntities.end(),
-            [](const std::unique_ptr<Entity>& entity) {
-                return entity.get()->entityType == entityType::player; // Bedingung: Element ist ein Player
+            [&players](std::unique_ptr<Entity>& entity) {
+                if (entity->entityType == entityType::player) {
+                    players.push_back(std::move(entity));
+                    return true; // Markieren Sie für das Entfernen aus allEntities
+                }
+                return false;
             }),
         allEntities.end()
-                );
+    );
 
     std::map<std::string, int> playerFighterStats = this->GetOwner().GetComponent<FighterComponent>()->fighterStats;
     uiDriver uiDriver;
@@ -65,14 +72,13 @@ Entity* PlayerInputComponent::GetTarget() const
 
     for (int i = 0; i < allEntities.size(); i++)
     {
-        if (allEntities[i].get()->entityType == entityType::enemy)
+        if (allEntities[i]->entityType == entityType::enemy)
         {
-            menuItems[i] = uiDriver.getNameFromEnemy(allEntities[i].get()->entitySubType);
+            menuItems[i] = uiDriver.getNameFromEnemy(allEntities[i]->entitySubType);
         }
     }
 
     std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Target :", menuItems, allEntities.size(), lastMenuIndex, lasteMenuIndexOffset);
-
 
     int index = -1;
 
@@ -84,7 +90,8 @@ Entity* PlayerInputComponent::GetTarget() const
         }
     }
 
+    delete[] menuItems; // Speicher freigeben
+    delete[] lines; // Speicher freigeben
+
     return allEntities[index].get();
 }
-
-

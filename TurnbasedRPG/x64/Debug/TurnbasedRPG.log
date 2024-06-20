@@ -1,8 +1,4 @@
 ﻿  inputcomponent.cpp
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(74,158): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(82,22): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust möglich
-  uiDriver.cpp
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\uiDriver.cpp(70,50): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\uiDriver.cpp(110,47): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
-  Code wird generiert...
-  TurnbasedRPG.vcxproj -> C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe
+C:\Users\robin\Desktop\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(81,158): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\Users\robin\Desktop\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(88,22): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust möglich
+  TurnbasedRPG.vcxproj -> C:\Users\robin\Desktop\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe
