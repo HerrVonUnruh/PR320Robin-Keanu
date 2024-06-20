@@ -53,6 +53,8 @@ void CombatSystem::Update()
             uiDriver uiDriver;
             std::cout << uiDriver.getNameFromEnemy(currentEntity->entitySubType) << std::endl;
             std::cout << "Penis" << std::endl;
+            //HIER STEHT EIN KOMMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!! <3
+
         }
     }
 
