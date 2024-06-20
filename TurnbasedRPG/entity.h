@@ -3,7 +3,7 @@
 #include <map>
 #include "component.h"
 
-enum entityType
+enum class entityType
 {
 	player,
 	enemy,
@@ -32,10 +32,19 @@ public:
 	Component* GetComponent(ComponentID id) const;
 
 	//Nice to have for developer convenience...
+	// In entity.h
+
 	template <class T>
 	T* GetComponent() const
 	{
-		return static_cast<T*>(GetComponent(T::ID));
+		for (const auto& pair : _components)
+		{
+			if (T* component = dynamic_cast<T*>(pair.second))
+			{
+				return component;
+			}
+		}
+		return nullptr;
 	}
 
 	void SendMessage(int id);

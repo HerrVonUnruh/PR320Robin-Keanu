@@ -22,7 +22,7 @@ class PlayerInputComponent : public InputComponent
 {
 public:
     virtual ~PlayerInputComponent();
-    Entity* GetTarget() const override { return nullptr; } //query entities from m_CombatSystem
+    Entity* GetTarget() const override;// { return nullptr; } //query entities from m_CombatSystem
 };
 
 class AIInputComponent : public InputComponent

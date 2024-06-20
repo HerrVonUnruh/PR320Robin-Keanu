@@ -10,15 +10,18 @@
 
 int main()
 {
-    Entity combatSystemEntity;
-    CombatSystem* combatSystem = combatSystemEntity.AddComponent<CombatSystem>();
 
-    while (false&&!combatSystem->IsGameOver())
+    while (true)//!combatSystem->IsGameOver())
     {
+        Entity combatSystemEntity;
+        CombatSystem* combatSystem = combatSystemEntity.AddComponent<CombatSystem>();
+
+        system("cls");
         combatSystem->Update();
+        system("pause");
     }
 
-    while (true)
+    while (false)
     {
         system("cls");
         uiDriver uiDriver;
