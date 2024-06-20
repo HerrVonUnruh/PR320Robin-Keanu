@@ -50,10 +50,13 @@ void CombatSystem::Update()
     for (int i = 0; i < _entities.size(); i++)
     {
         Entity* currentEntity = _entities[i].get()->GetComponent<InputComponent>()->GetTarget();
+        combatManeuvers combatManeuver = _entities[i].get()->GetComponent<InputComponent>()->GetCombatManeuver();
+        std::cout << static_cast<int>(combatManeuver) << std::endl;
         if (_entities[i].get()->entityType == entityType::player)
         {
             uiDriver uiDriver;
             std::cout << uiDriver.getNameFromEnemy(currentEntity->entitySubType) << std::endl;
+
             //HIER STEHT EIN KOMMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!! <3
             //hier auch <3 -kc
         }

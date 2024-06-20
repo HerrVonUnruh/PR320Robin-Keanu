@@ -6,6 +6,7 @@
 class uiDriver
 {
 public:
+
     void displayMonster(int monsterIDs[], int monsterAmount);
     void displayBoss(int bossID);
 
@@ -24,6 +25,7 @@ public:
     std::string topLine = "/=======================================================================================================\\";
     std::string centerLine = "|=======================================================================================================|";
     std::string bottomLine = "\\=======================================================================================================/";
+    std::string weapons[3] = {"AK47", "Dildospear", "Dubstepmoves"};
 
     std::string playerGrafix[7] = {
         "You              ",
