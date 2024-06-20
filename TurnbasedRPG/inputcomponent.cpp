@@ -21,19 +21,19 @@ AIInputComponent::~AIInputComponent()
     
 }
 
-Entity* AIInputComponent::GetTarget()
+Entity* AIInputComponent::GetTarget() const
 {
-    std::vector<std::unique_ptr<Entity>> allEntitys = AIInputComponent::_combatSystem->GetEntities();
-    
-    for (int i = 0; i < allEntitys.size(); i++)
-    {
-        Entity* currentEntity = allEntitys[i].get();
+    std::vector<std::unique_ptr<Entity>>& allEntities = const_cast<CombatSystem*>(_combatSystem)->GetEntities();
 
-        if (currentEntity->entityType == entityType::player)
+    for (int i = 0; i < allEntities.size(); ++i)
+    {
+        if (allEntities[i]->entityType == entityType::player)
         {
-            return currentEntity;
+            return allEntities[i].get();
         }
     }
 
     return nullptr;
 }
+
+

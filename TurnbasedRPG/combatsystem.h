@@ -12,7 +12,7 @@ public:
     virtual void Init() override;
     virtual void Update() override;
     bool IsGameOver() const { return false; }
-    const std::vector<std::unique_ptr<Entity>>& GetEntities() const { return _entities; }
+    std::vector<std::unique_ptr<Entity>>& GetEntities() { return _entities; }
 private:
     Entity* _player;
     std::vector<std::unique_ptr<Entity>> _entities;
