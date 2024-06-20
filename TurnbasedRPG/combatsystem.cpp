@@ -3,6 +3,7 @@
 #include "fightercomponent.h"
 #include "InputComponent.h"
 #include "component.h"
+#include "uiDriver.h"
 #include <iostream>
 
 CombatSystem::CombatSystem()
@@ -46,10 +47,13 @@ void CombatSystem::Update()
     for (int i = 0; i < _entities.size(); i++)
     {
         Entity* currentEntity = _entities[i].get()->GetComponent<InputComponent>()->GetTarget();
-        std::cout << static_cast<int>(_entities[i].get()->entityType);
-        std::cout << " entity is targeting: ";
-        std::cout << static_cast<int>(currentEntity->entityType);
-        std::cout << std::endl;
+        if (_entities[i].get()->entityType == entityType::player)
+        {
+
+            uiDriver uiDriver;
+            std::cout << uiDriver.getNameFromEnemy(currentEntity->entitySubType) << std::endl;
+            std::cout << "Penis" << std::endl;
+        }
     }
 
     std::cout << "amount of loaded Entities: " + std::to_string(_entities.size()) << std::endl;
