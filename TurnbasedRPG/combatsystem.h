@@ -16,5 +16,9 @@ public:
 private:
     Entity* _player;
     std::vector<std::unique_ptr<Entity>> _entities;
+
+
+    
+    // FightingLocig(entitunique ptr);
 };
 

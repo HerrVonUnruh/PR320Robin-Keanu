@@ -59,10 +59,57 @@ void CombatSystem::Update()
 
             //HIER STEHT EIN KOMMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!! <3
             //hier auch <3 -kc
+            // hier steht ein weiterer Kommentar <3 RK
         }
     }
 
-    //Sort by initiative
+
+    //FightingLocig(entitunique ptr);
+    // {
+    //  create new List Sort by initiative 
+    // if (initiative 1 == initivative 2)
+    // {
+    //      pick random wer zuerst dran ist.
+    // }
+    // 
+    // loop über die sortierte Liste und mache jedes mal das jeweilige combatshitding
+    // 
+    // fightercomponent getTarget 
+    // fightercomponent getcombatManeuver
+    // 
+    // 
+    // Würfeln!
+    // Rechnen
+    // Combat Spieler + combat WaffeSpieler + 20Seitiges Würfelergebnis
+    // Combat Gegnger + combat WaffeGegner + 20Seitiges Würfelergebnis
+    // 
+    // if ( Angreifer int > Verteidger int)
+    // {
+    //  Berechne DMG
+    //  Würfeln!
+    // Würfel mit Würfel von Waffe
+    // Ergebnis + Strength + weapon damage = potenzieller DMG
+    // potenzieller DMG - Gegner Dexterity = wahrer DMG
+    // Hitpoints Gegner - wahrer DMG.
+    // 
+    // if ( hitpoint == 0 )
+    // {
+    //  TOT()!
+    // }
+    // }
+    //
+    // Else
+    // {
+    //      block = 0DMG = Nischt!
+    // }
+    //
+    // 
+    // update();
+    // 
+    // 
+    // 
+    // }
+   
     //Query input component and ask for target using GetComponent<InputComponent>()
     //Perform combat
     //Update IsGameOver
