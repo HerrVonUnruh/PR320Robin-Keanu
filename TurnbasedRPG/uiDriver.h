@@ -26,6 +26,7 @@ public:
     std::string centerLine = "|=======================================================================================================|";
     std::string bottomLine = "\\=======================================================================================================/";
     std::string weapons[3] = {"AK47", "Dildospear", "Dubstepmoves"};
+    std::string combatManeuvers[3] = { "Standard Attack", "Sweeping Strike", "Power Strike" };
 
     std::string playerGrafix[7] = {
         "You              ",

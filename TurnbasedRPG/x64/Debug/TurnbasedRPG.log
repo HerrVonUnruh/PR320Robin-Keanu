@@ -1,4 +1,11 @@
-﻿  inputcomponent.cpp
-C:\Users\robin\Desktop\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(78,157): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
-C:\Users\robin\Desktop\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(114): warning C4715: "AIInputComponent::GetCombatManeuver": Nicht alle Codepfade geben einen Wert zurück.
-  TurnbasedRPG.vcxproj -> C:\Users\robin\Desktop\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe
+﻿  combatsystem.cpp
+  fightercomponent.cpp
+  inputcomponent.cpp
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(78,157): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
+  main.cpp
+  uiDriver.cpp
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\uiDriver.cpp(70,50): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\uiDriver.cpp(110,47): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
+  Code wird generiert...
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\inputcomponent.cpp(114): warning C4715: "AIInputComponent::GetCombatManeuver": Nicht alle Codepfade geben einen Wert zurück.
+  TurnbasedRPG.vcxproj -> C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe

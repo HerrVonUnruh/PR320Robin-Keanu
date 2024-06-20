@@ -8,8 +8,8 @@
 enum combatManeuvers
 {
     standartAttack,
-    powerStrike,
-    sweepingStrike
+    sweepingStrike,
+    powerStrike
 };
 
 struct weapon

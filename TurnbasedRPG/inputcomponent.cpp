@@ -112,9 +112,27 @@ combatManeuvers AIInputComponent::GetCombatManeuver()const
 	}
 
 }
-combatManeuvers PlayerInputComponent::GetCombatManeuver()const
+combatManeuvers PlayerInputComponent::GetCombatManeuver() const
 {
+	std::map<std::string, int> playerFighterStats = this->GetOwner().GetComponent<FighterComponent>()->fighterStats;
+	uiDriver uiDriver;
 
-	return combatManeuvers::powerStrike;
+	int lineAmount = 0;
+	std::string* lines = uiDriver.generatePlayerStatsLines(playerFighterStats, lineAmount);
 
+	int lastMenuIndex = 0;
+	int lasteMenuIndexOffset = 0;
+
+	std::string* menuItems = new std::string[3];
+	std::map<std::string, combatManeuvers> nameCombatManeuverMap;
+
+	for (int i = 0; i < 3; i++)
+	{
+		menuItems[i] = uiDriver.combatManeuvers[i];
+		nameCombatManeuverMap[menuItems[i]] = static_cast<combatManeuvers>(i);
+	}
+
+	std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Combat Maneuver :", menuItems, 3, lastMenuIndex, lasteMenuIndexOffset);
+
+	return nameCombatManeuverMap.at(pickedMenuItem);
 }
