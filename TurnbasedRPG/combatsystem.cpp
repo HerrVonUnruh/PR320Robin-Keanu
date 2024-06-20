@@ -31,12 +31,14 @@ void CombatSystem::Update()
     int numEnemies = 2;
     for (int i = 0; i < numEnemies; ++i)
     {
+        
         std::unique_ptr<Entity> enemy = std::make_unique<Entity>();
         enemy->AddComponent<FighterComponent>();
         InputComponent* input = enemy->AddComponent<AIInputComponent>();
         input->SetCombatSystem(this);
 
         enemy->entityType = entityType::enemy;
+        enemy->entitySubType = i + 2; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
 
         _entities.push_back(std::move(enemy));
     }

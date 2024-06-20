@@ -75,6 +75,7 @@ Entity* PlayerInputComponent::GetTarget() const
         if (allEntities[i]->entityType == entityType::enemy)
         {
             menuItems[i] = uiDriver.getNameFromEnemy(allEntities[i]->entitySubType);
+            std::cout << menuItems[0] << std::endl;
         }
     }
 
