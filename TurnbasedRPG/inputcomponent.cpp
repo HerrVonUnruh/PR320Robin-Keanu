@@ -44,10 +44,16 @@ Entity* PlayerInputComponent::GetTarget() const
     std::vector<std::unique_ptr<Entity>>& allEntities = const_cast<CombatSystem*>(_combatSystem)->GetEntities();
 
 
+    allEntities.erase(
+        std::remove_if(allEntities.begin(), allEntities.end(),
+            [](const std::unique_ptr<Entity>& entity) {
+                return entity.get()->entityType == entityType::player; // Bedingung: Element ist ein Player
+            }),
+        allEntities.end()
+                );
 
     std::map<std::string, int> playerFighterStats = this->GetOwner().GetComponent<FighterComponent>()->fighterStats;
     uiDriver uiDriver;
-    std::string menuItems[4] = {};
 
     int lineAmount = 0;
     std::string* lines = uiDriver.generatePlayerStatsLines(playerFighterStats, lineAmount);
@@ -68,7 +74,17 @@ Entity* PlayerInputComponent::GetTarget() const
     std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Target :", menuItems, allEntities.size(), lastMenuIndex, lasteMenuIndexOffset);
 
 
-    return allEntities[menuItems.in].get();
+    int index = -1;
+
+    // Iterate through the array to find the target string
+    for (size_t i = 0; i < allEntities.size(); ++i) {
+        if (menuItems[i] == pickedMenuItem) {
+            index = i;
+            break;
+        }
+    }
+
+    return allEntities[index].get();
 }
 
 
