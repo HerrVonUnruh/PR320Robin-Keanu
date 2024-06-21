@@ -31,6 +31,7 @@ void CombatSystem::Init()
 	input->SetCombatSystem(this);
 
 	player->entityType = entityType::player;
+	player->entitySubType = 0;
 
 	playerFighterComponent->fighterStats = playerFighterComponent->defaultPlayerFighterStats;
 	playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[2];
@@ -132,6 +133,12 @@ void CombatSystem::Update(int &level)
 
 
 		bool hasPickedWeapon = false;
+
+		if (playerFighterComponent->GetOwner().entitySubType == 1)
+		{
+			hasPickedWeapon = true;
+		}
+
 		while (!hasPickedWeapon)
 		{
 			std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
@@ -155,6 +162,8 @@ void CombatSystem::Update(int &level)
 
 			playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[nameWeaponMap.at(pickedMenuItem)];
 
+
+			playerFighterComponent->GetOwner().entitySubType = 1;
 			hasPickedWeapon = true;
 		}
 	}
