@@ -13,6 +13,8 @@ public:
     virtual void Update() override;
     bool IsGameOver() const { return false; }
     std::vector<std::unique_ptr<Entity>>& GetEntities() { return _entities; }
+
+    void calculateAndApplyDamage(Entity *entity);
 private:
     Entity* _player;
     std::vector<std::unique_ptr<Entity>> _entities;
