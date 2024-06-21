@@ -28,6 +28,8 @@ public:
             });
     }
 
+    int statPointsToSpend = 20;
+
 private:
     Entity* _player;
     std::vector<std::unique_ptr<Entity>> _entities;
