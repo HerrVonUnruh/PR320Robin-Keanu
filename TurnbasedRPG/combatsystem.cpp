@@ -24,7 +24,7 @@ void CombatSystem::Init()
     input->SetCombatSystem(this);
 
     player->entityType = entityType::player;
-
+    
     playerFighterComponent->fighterStats = playerFighterComponent->defaultPlayerFighterStats;
     playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[2];
 
@@ -57,8 +57,7 @@ void CombatSystem::Update()
     sortEntitiesByStat(_entities, "5_show_Initiative");
 
     uiDriver.drawTopLine();
-    //uiDriver.displayMonster( ,numEnemies);
-
+    
     //std::map<std::string, int> fcs[] = {  }
     //uiDriver.displayMonsterStats();
     for (int i = 0; i < _entities.size(); i++)
@@ -66,7 +65,43 @@ void CombatSystem::Update()
         Entity* currentEntity = _entities[i].get();//->GetComponent<InputComponent>()->GetTarget();
         //combatManeuvers combatManeuver = _entities[i].get()->GetComponent<InputComponent>()->GetCombatManeuver();
 
-        calculateAndApplyDamage(currentEntity);
+
+        combatManeuvers pickedManeuver = currentEntity->GetComponent<InputComponent>()->GetCombatManeuver();
+        int maneuverPenalty = 0;
+
+        Entity* target = currentEntity->GetComponent<InputComponent>()->GetTarget();
+        switch (pickedManeuver)
+        {
+        case standartAttack:
+            if (canPerformAttack(currentEntity, target, maneuverPenalty))
+            {
+                calculateAndApplyDamage(currentEntity, target, true);
+            }
+            break;
+        case sweepingStrike:
+            for (int j = 0; j < _entities.size(); j++)
+            {
+                if (_entities[j].get() != currentEntity)
+                {
+                    if (canPerformAttack(currentEntity, target, maneuverPenalty))
+                    {
+                        calculateAndApplyDamage(currentEntity, target, true);
+                    }
+                }
+            }
+            maneuverPenalty = 4;
+            break;
+        case powerStrike:
+            if (canPerformAttack(currentEntity, target, maneuverPenalty))
+            {
+                calculateAndApplyDamage(currentEntity, target, true, true);
+            }
+            maneuverPenalty = 8;
+            break;
+        default:
+            break;
+        }
+
         
         /*std::cout << static_cast<int>(combatManeuver) << std::endl;
         if (_entities[i].get()->entityType == entityType::player)
@@ -140,6 +175,29 @@ void CombatSystem::Update()
     //Perform combat
     //Update IsGameOver
 }
+
+bool CombatSystem::canPerformAttack(Entity* entityAttacker, Entity* entityDefender, int maneurverCombatPenalty)
+{
+    FighterComponent* attackerFighterComponent = entityAttacker->GetComponent<FighterComponent>();
+    FighterComponent* defenderFighterComponent = entityDefender->GetComponent<FighterComponent>();
+
+    int attackerDiceRoll = (rand() % 19) + 1;
+    int defenderDiceRoll = (rand() % 19) + 1;
+
+    int attackerCombat = attackerFighterComponent->fighterStats.at("7_hide_Combat");
+    int defenderCombat = defenderFighterComponent->fighterStats.at("7_hide_Combat");
+
+    int attackerWeaponCombat = attackerFighterComponent->currentweapon.combat;
+    int defenderWeaponCombat = defenderFighterComponent->currentweapon.combat;
+
+    int attackerDefense = attackerDiceRoll + attackerCombat + attackerWeaponCombat;
+    int defenderDefense = defenderDiceRoll + defenderCombat + defenderWeaponCombat;
+
+    attackerDefense = attackerDefense - maneurverCombatPenalty;
+
+    return attackerDefense > defenderDefense;
+}
+
 
 void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* forcedTargetEnity, bool forceTargetEnemy, bool doDoubleDamage)
 {

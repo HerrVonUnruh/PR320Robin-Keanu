@@ -14,10 +14,10 @@ enum combatManeuvers
 
 struct weapon
 {
-    std::string name;
-    int d6Amount;
-    int damage;
-    int combat;
+    std::string name = "uhshu";
+    int d6Amount = -32;
+    int damage = -5345;
+    int combat = -677;
 };
 
 class FighterComponent : public Component
@@ -37,7 +37,13 @@ public:
         {"7_hide_Combat", -1}
     };
 
-    weapon currentweapon;
+    weapon currentweapon =
+    {
+        "nicht richtig gesetzt",
+        -3423,
+        -3546,
+        -78946
+    };
 
     weapon presetWeapons[3] =
     {
@@ -67,7 +73,7 @@ public:
         {"2_hide_MaxHitpoints", 20},
         {"3_show_Strength", 15},
         {"4_show_Dexterity", 0},
-        {"5_show_Initiative", 0},
+        {"5_show_Initiative", 25},
         {"6_hide_Constitution", 0},
         {"7_hide_Combat", 0}
     };
