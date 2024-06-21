@@ -132,11 +132,23 @@ void CombatSystem::Update(int &level)
 		}
 
 
+
+
 		bool hasPickedWeapon = false;
+		playerFighterComponent->fighterStats.at("2_hide_MaxHitpoints") = playerFighterComponent->fighterStats.at("2_hide_MaxHitpoints") + (playerFighterComponent->fighterStats.at("6_hide_Constitution") * 4);
 
 		if (playerFighterComponent->GetOwner().entitySubType == 1)
 		{
 			hasPickedWeapon = true;
+
+			if ((rand() % 100) < 20)
+			{
+				playerFighterComponent->fighterStats.at("1_show_Hitpoints") = playerFighterComponent->fighterStats.at("2_hide_MaxHitpoints");
+			}
+		}
+		else
+		{
+			playerFighterComponent->fighterStats.at("1_show_Hitpoints") = playerFighterComponent->fighterStats.at("2_hide_MaxHitpoints");
 		}
 
 		while (!hasPickedWeapon)

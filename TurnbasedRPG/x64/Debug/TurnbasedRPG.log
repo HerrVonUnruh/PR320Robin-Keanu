@@ -1,4 +1,4 @@
 ﻿  combatsystem.cpp
 C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\combatsystem.cpp(124,234): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
-C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\combatsystem.cpp(173,39): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
+C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\TurnbasedRPG\combatsystem.cpp(185,39): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust möglich
   TurnbasedRPG.vcxproj -> C:\Users\keanu\Documents\GitHub\PR320Robin-Keanu\x64\Debug\TurnbasedRPG.exe
