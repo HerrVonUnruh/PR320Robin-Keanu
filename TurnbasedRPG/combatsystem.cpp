@@ -45,7 +45,6 @@ void CombatSystem::Update(int &level)
 {
 	uiDriver uiDriver;
 
-	
 	if (_entities.size() == 1)
 	{
 		level++;
@@ -94,6 +93,15 @@ void CombatSystem::Update(int &level)
 				break;
 			}
 		}
+
+		if (level % 3 == 0)
+		{
+			playerFighterComponent->currentweapon.combat += 1;
+			playerFighterComponent->currentweapon.damage += 1;
+		}
+
+		std::cout << std::to_string(playerFighterComponent->currentweapon.damage) << std::endl;
+
 
 		if (statPointsToSpend == 0)
 		{
