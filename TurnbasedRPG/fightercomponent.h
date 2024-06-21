@@ -71,7 +71,7 @@ public:
     {
         {"1_show_Hitpoints", 20},
         {"2_hide_MaxHitpoints", 20},
-        {"3_show_Strength", 0},
+        {"3_show_Strength", 100},
         {"4_show_Dexterity", 0},
         {"5_show_Initiative", 0},
         {"6_hide_Constitution", 0},
@@ -148,7 +148,7 @@ public:
             {"7_hide_Combat", 1}
         },
         {//monster 5
-            {"1_show_Hitpoints", 500},
+            {"1_show_Hitpoints", 5},
             {"2_hide_MaxHitpoints", 5},
             {"3_show_Strength", 0},
             {"4_show_Dexterity", 1},
@@ -157,7 +157,7 @@ public:
             {"7_hide_Combat", 0}
         },
         {//monster 6
-            {"1_show_Hitpoints", 0},
+            {"1_show_Hitpoints", 1},
             {"2_hide_MaxHitpoints", 6},
             {"3_show_Strength", 0},
             {"4_show_Dexterity", 3},

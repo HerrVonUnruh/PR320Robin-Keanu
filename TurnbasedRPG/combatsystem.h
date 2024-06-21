@@ -14,11 +14,11 @@ public:
     virtual ~CombatSystem();
 	virtual ComponentID GetID() const override { return ComponentID::CombatSystem; }
     virtual void Init() override;
-    virtual void Update(int level);
+    virtual void Update(int &level);
     bool IsGameOver() const { return gameOver; }
     std::vector<std::unique_ptr<Entity>>& GetEntities() { return _entities; }
 
-    void calculateAndApplyDamage(Entity *entity, Entity *forcedTargetEnity = NULL, bool forceTargetEnemy = false, bool doDoubleDamag = false);
+    int calculateAndApplyDamage(Entity *entity, Entity *forcedTargetEnity = NULL, bool forceTargetEnemy = false, bool doDoubleDamag = false);
     bool canPerformAttack(Entity* entity, Entity* targetEntity, int maneurverCombatPenalty);
 
     void sortEntitiesByStat(std::vector<std::unique_ptr<Entity>>& entities, const std::string& stat) {
@@ -28,7 +28,7 @@ public:
             });
     }
 
-    int statPointsToSpend = 20;
+    int statPointsToSpend = 0;
     bool gameOver = false;
 
 private:

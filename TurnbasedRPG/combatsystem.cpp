@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include <ctime>
 
 CombatSystem::CombatSystem()
 	: _player(nullptr)
@@ -21,6 +22,9 @@ CombatSystem::~CombatSystem()
 
 void CombatSystem::Init()
 {
+	std::srand(static_cast<unsigned int>(std::time(0)));
+
+
 	std::unique_ptr<Entity> player = std::make_unique<Entity>();
 	FighterComponent* playerFighterComponent = player->AddComponent<FighterComponent>();
 	InputComponent* input = player->AddComponent<PlayerInputComponent>();
@@ -102,14 +106,15 @@ void CombatSystem::Init()
 }
 
 
-void CombatSystem::Update(int level)
+void CombatSystem::Update(int &level)
 {
 	uiDriver uiDriver;
-
 
 	
 	if (_entities.size() == 1)
 	{
+		level++;
+
 		std::vector<int> numbers;
 		for (int i = 1; i <= 10; ++i) {
 			numbers.push_back(i);
@@ -139,6 +144,7 @@ void CombatSystem::Update(int level)
 			_entities.push_back(std::move(enemy));
 		}
 	}
+	std::cout << std::to_string(level) << std::endl;
 	sortEntitiesByStat(_entities, "5_show_Initiative");
 
 	int numEnemies = _entities.size() - 1;
@@ -170,11 +176,34 @@ void CombatSystem::Update(int level)
 		Entity* currentEntity = _entities[i].get();//->GetComponent<InputComponent>()->GetTarget();
 		//combatManeuvers combatManeuver = _entities[i].get()->GetComponent<InputComponent>()->GetCombatManeuver();
 
+		if (currentEntity->entityType == entityType::player)
+		{
+			FighterComponent *playerFighterComponent = currentEntity->GetComponent<FighterComponent>();
+
+			if (playerFighterComponent->fighterStats.at("1_show_Hitpoints") < 0)
+			{
+				std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
+
+				int lineAmount = 0;
+				std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
+				std::string menuItems[1] = { "ok" };
+				int lastMenuIndex = 0;
+				int lastMenuIndexOffset = 0;
+
+				uiDriver.drawMenu(lines, lineAmount, "You died :", menuItems, 1, lastMenuIndex, lastMenuIndexOffset);
+
+
+				gameOver = true;
+				return;
+			}
+		}
+
 
 		combatManeuvers pickedManeuver = currentEntity->GetComponent<InputComponent>()->GetCombatManeuver();
 		int maneuverPenalty = 0;
 
 		Entity* target;
+		
 		switch (pickedManeuver)
 		{
 		case standartAttack:
@@ -188,6 +217,7 @@ void CombatSystem::Update(int level)
 			break;
 		case sweepingStrike:
 			maneuverPenalty = 4;
+
 			for (int j = 0; j < _entities.size(); j++)
 			{
 				if (_entities[j].get() != currentEntity)
@@ -338,8 +368,10 @@ bool CombatSystem::canPerformAttack(Entity* entityAttacker, Entity* entityDefend
 
 
 
-void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* forcedTargetEnity, bool forceTargetEnemy, bool doDoubleDamage)
+int CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* forcedTargetEnity, bool forceTargetEnemy, bool doDoubleDamage)
 {
+	int returnValue = 0;
+
 	InputComponent* inputComponentAttacker = entityAttacker->GetComponent<InputComponent>();
 
 	Entity* entityDefender;
@@ -408,5 +440,24 @@ void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* force
 
 	defenderFighterComponent->fighterStats.at("1_show_Hitpoints") = defenderFighterComponent->fighterStats.at("1_show_Hitpoints") - totalDamage;
 
+	if (defenderFighterComponent->fighterStats.at("1_show_Hitpoints") < 0)
+	{
+		if (defenderFighterComponent != playerFighterComponent)
+		{
+			Entity& entity = defenderFighterComponent->GetOwner();
+
+			auto it = std::find_if(_entities.begin(), _entities.end(), [&entity](const std::unique_ptr<Entity>& ptr) {
+				return ptr.get() == &entity;
+				});
+
+			// Wenn das Element gefunden wurde, entfernen wir es
+			if (it != _entities.end()) {
+				_entities.erase(it);
+			}
+
+			returnValue++;
+		}
+	}
+	return returnValue;
 	//std::cout << "                                                                              after attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
 };

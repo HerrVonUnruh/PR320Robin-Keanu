@@ -13,13 +13,13 @@ int main()
     Entity combatSystemEntity;
     CombatSystem* combatSystem = combatSystemEntity.AddComponent<CombatSystem>();
 
-    int level = 1;
+    int level = 0;
     while (!combatSystem->IsGameOver())
     {
         system("cls");
         
         combatSystem->Update(level);
-        level++;
+        
         //system("pause");
     }
 
