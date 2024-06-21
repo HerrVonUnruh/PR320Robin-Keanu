@@ -71,7 +71,7 @@ public:
     {
         {"1_show_Hitpoints", 20},
         {"2_hide_MaxHitpoints", 20},
-        {"3_show_Strength", 100},
+        {"3_show_Strength", 0},
         {"4_show_Dexterity", 0},
         {"5_show_Initiative", 0},
         {"6_hide_Constitution", 0},

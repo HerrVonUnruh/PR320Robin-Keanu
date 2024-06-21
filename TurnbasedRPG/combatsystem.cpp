@@ -34,72 +34,6 @@ void CombatSystem::Init()
 
 	playerFighterComponent->fighterStats = playerFighterComponent->defaultPlayerFighterStats;
 	playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[2];
-	
-	int lastMenuIndex = 0;
-	int lasteMenuIndexOffset = 0;
-	bool wasInMenu = false;
-
-	uiDriver uiDriver;
-	uiDriver.drawTopLine();
-
-	while (statPointsToSpend > 0)
-	{
-		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
-		std::string* menuItems = new std::string[fighterStats.size() - 2];
-
-		int lineAmount = 0;
-		std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
-
-		std::map<std::string, std::string> nameStatMap;
-
-		int index = 0;
-		for (auto it = fighterStats.begin(); it != fighterStats.end(); ++it)
-		{
-			if (index >= 2)
-			{
-				menuItems[index - 2] = it->first.substr(7) + " (" + std::to_string(it->second) + ")";
-				nameStatMap[menuItems[index - 2]] = it->first;
-			}
-			index++;
-		}
-
-		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Give your player some more power (" + std::to_string(statPointsToSpend) + ") :", menuItems, fighterStats.size() - 2, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
-		wasInMenu = true;
-		delete[] menuItems;
-
-		fighterStats.at(nameStatMap.at(pickedMenuItem)) = fighterStats.at(nameStatMap.at(pickedMenuItem)) + 1;
-		
-		playerFighterComponent->fighterStats = fighterStats;
-		statPointsToSpend--;
-	}
-
-
-	bool hasPickedWeapon = false;
-	while (!hasPickedWeapon)
-	{
-		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
-
-		int lineAmount = 0;
-		std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
-
-		std::string* menuItems = new std::string[3];
-		std::map<std::string, int> nameWeaponMap;
-
-
-		for (int i = 0; i < 3; i++)
-		{
-			menuItems[i] = uiDriver.weapons[i];
-			nameWeaponMap[menuItems[i]] = i;
-		}
-
-		int lastMenuIndex = 0;
-		int lasteMenuIndexOffset = 0;
-		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Weapon :", menuItems, 3, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
-
-		playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[nameWeaponMap.at(pickedMenuItem)];
-
-		hasPickedWeapon = true;
-	}
 
 	_entities.push_back(std::move(player));
 	_player = player.get();
@@ -143,8 +77,88 @@ void CombatSystem::Update(int &level)
 
 			_entities.push_back(std::move(enemy));
 		}
+
+		int lastMenuIndex = 0;
+		int lasteMenuIndexOffset = 0;
+		bool wasInMenu = false;
+
+		uiDriver.drawTopLine();
+
+		FighterComponent* playerFighterComponent = nullptr;
+		for (int i = 0; i < _entities.size(); i++)
+		{
+			if (_entities[i].get()->entityType == entityType::player)
+			{
+				playerFighterComponent = _entities[i].get()->GetComponent<FighterComponent>();
+				break;
+			}
+		}
+
+		if (statPointsToSpend == 0)
+		{
+			statPointsToSpend = 5;
+		}
+
+		while (statPointsToSpend > 0)
+		{
+			std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
+			std::string* menuItems = new std::string[fighterStats.size() - 2];
+
+			int lineAmount = 0;
+			std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
+
+			std::map<std::string, std::string> nameStatMap;
+
+			int index = 0;
+			for (auto it = fighterStats.begin(); it != fighterStats.end(); ++it)
+			{
+				if (index >= 2)
+				{
+					menuItems[index - 2] = it->first.substr(7) + " (" + std::to_string(it->second) + ")";
+					nameStatMap[menuItems[index - 2]] = it->first;
+				}
+				index++;
+			}
+
+			std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Give your player some more power (" + std::to_string(statPointsToSpend) + ") :", menuItems, fighterStats.size() - 2, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
+			wasInMenu = true;
+			delete[] menuItems;
+
+			fighterStats.at(nameStatMap.at(pickedMenuItem)) = fighterStats.at(nameStatMap.at(pickedMenuItem)) + 1;
+
+			playerFighterComponent->fighterStats = fighterStats;
+			statPointsToSpend--;
+		}
+
+
+		bool hasPickedWeapon = false;
+		while (!hasPickedWeapon)
+		{
+			std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
+
+			int lineAmount = 0;
+			std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
+
+			std::string* menuItems = new std::string[3];
+			std::map<std::string, int> nameWeaponMap;
+
+
+			for (int i = 0; i < 3; i++)
+			{
+				menuItems[i] = uiDriver.weapons[i];
+				nameWeaponMap[menuItems[i]] = i;
+			}
+
+			int lastMenuIndex = 0;
+			int lasteMenuIndexOffset = 0;
+			std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Weapon :", menuItems, 3, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
+
+			playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[nameWeaponMap.at(pickedMenuItem)];
+
+			hasPickedWeapon = true;
+		}
 	}
-	std::cout << std::to_string(level) << std::endl;
+	//std::cout << std::to_string(level) << std::endl;
 	sortEntitiesByStat(_entities, "5_show_Initiative");
 
 	int numEnemies = _entities.size() - 1;
@@ -164,7 +178,7 @@ void CombatSystem::Update(int &level)
 		}
 	}
 
-
+	system("cls");
 	uiDriver.drawTopLine();
 	uiDriver.displayMonster(monsterIDS, numEnemies);
 	uiDriver.displayMonsterStats(enemyFighterStats, numEnemies);

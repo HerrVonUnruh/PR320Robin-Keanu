@@ -28,7 +28,7 @@ public:
             });
     }
 
-    int statPointsToSpend = 0;
+    int statPointsToSpend = 30;
     bool gameOver = false;
 
 private:
