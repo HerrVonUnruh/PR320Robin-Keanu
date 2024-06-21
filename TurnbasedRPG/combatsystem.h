@@ -15,7 +15,7 @@ public:
 	virtual ComponentID GetID() const override { return ComponentID::CombatSystem; }
     virtual void Init() override;
     virtual void Update() override;
-    bool IsGameOver() const { return false; }
+    bool IsGameOver() const { return gameOver; }
     std::vector<std::unique_ptr<Entity>>& GetEntities() { return _entities; }
 
     void calculateAndApplyDamage(Entity *entity, Entity *forcedTargetEnity = NULL, bool forceTargetEnemy = false, bool doDoubleDamag = false);
@@ -29,6 +29,7 @@ public:
     }
 
     int statPointsToSpend = 20;
+    bool gameOver = false;
 
 private:
     Entity* _player;

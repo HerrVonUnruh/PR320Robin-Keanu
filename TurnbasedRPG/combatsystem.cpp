@@ -5,6 +5,9 @@
 #include "component.h"
 #include "uiDriver.h"
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
 
 CombatSystem::CombatSystem()
 	: _player(nullptr)
@@ -32,13 +35,15 @@ void CombatSystem::Init()
 	int lasteMenuIndexOffset = 0;
 	bool wasInMenu = false;
 
+	uiDriver uiDriver;
+	uiDriver.drawTopLine();
+
 	while (statPointsToSpend > 0)
 	{
 		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
 		std::string* menuItems = new std::string[fighterStats.size() - 2];
 
 		int lineAmount = 0;
-		uiDriver uiDriver;
 		std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
 
 		std::map<std::string, std::string> nameStatMap;
@@ -71,7 +76,6 @@ void CombatSystem::Init()
 		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
 
 		int lineAmount = 0;
-		uiDriver uiDriver;
 		std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
 
 		std::string* menuItems = new std::string[3];
@@ -101,18 +105,32 @@ void CombatSystem::Init()
 void CombatSystem::Update()
 {
 	uiDriver uiDriver;
+
+	std::vector<int> numbers;
+	for (int i = 1; i <= 10; ++i) {
+		numbers.push_back(i);
+	}
+
+	random_shuffle(numbers.begin(), numbers.end());
+
 	//Create enemies
-	int numEnemies = 2;
+	int numEnemies = (rand() % 4) + 1;
+	if (numEnemies == 1)
+	{
+		numEnemies++;
+	}
+
+	int* monsterIDS = new int[numEnemies];
 	for (int i = 0; i < numEnemies; ++i)
 	{
-
 		std::unique_ptr<Entity> enemy = std::make_unique<Entity>();
 		FighterComponent* enemyFighterComponent = enemy->AddComponent<FighterComponent>();
 		InputComponent* input = enemy->AddComponent<AIInputComponent>();
 		input->SetCombatSystem(this);
 
 		enemy->entityType = entityType::enemy;
-		enemy->entitySubType = i + 5; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
+		enemy->entitySubType = numbers[i]; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
+		monsterIDS[i] = enemy->entitySubType;
 
 		enemyFighterComponent->fighterStats = enemyFighterComponent->defaultMonsterFighterStats[i + 4];
 		enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[rand() % 3];
@@ -120,12 +138,11 @@ void CombatSystem::Update()
 		_entities.push_back(std::move(enemy));
 	}
 
+	uiDriver.drawTopLine();
+	uiDriver.displayMonster(monsterIDS, numEnemies);
+
 	sortEntitiesByStat(_entities, "5_show_Initiative");
 
-	uiDriver.drawTopLine();
-
-	//std::map<std::string, int> fcs[] = {  }
-	//uiDriver.displayMonsterStats();
 	for (int i = 0; i < _entities.size(); i++)
 	{
 		Entity* currentEntity = _entities[i].get();//->GetComponent<InputComponent>()->GetTarget();
@@ -135,34 +152,41 @@ void CombatSystem::Update()
 		combatManeuvers pickedManeuver = currentEntity->GetComponent<InputComponent>()->GetCombatManeuver();
 		int maneuverPenalty = 0;
 
-		Entity* target = currentEntity->GetComponent<InputComponent>()->GetTarget();
+		Entity* target;
 		switch (pickedManeuver)
 		{
 		case standartAttack:
+			target = currentEntity->GetComponent<InputComponent>()->GetTarget();
+
+
 			if (canPerformAttack(currentEntity, target, maneuverPenalty))
 			{
 				calculateAndApplyDamage(currentEntity, target, true);
 			}
 			break;
 		case sweepingStrike:
+			maneuverPenalty = 4;
 			for (int j = 0; j < _entities.size(); j++)
 			{
 				if (_entities[j].get() != currentEntity)
 				{
-					if (canPerformAttack(currentEntity, target, maneuverPenalty))
+					if (canPerformAttack(currentEntity, _entities[j].get(), maneuverPenalty))
 					{
-						calculateAndApplyDamage(currentEntity, target, true);
+						calculateAndApplyDamage(currentEntity, _entities[j].get(), true);
 					}
 				}
 			}
-			maneuverPenalty = 4;
 			break;
 		case powerStrike:
+			maneuverPenalty = 8;
+
+			target = currentEntity->GetComponent<InputComponent>()->GetTarget();
+
+
 			if (canPerformAttack(currentEntity, target, maneuverPenalty))
 			{
 				calculateAndApplyDamage(currentEntity, target, true, true);
 			}
-			maneuverPenalty = 8;
 			break;
 		default:
 			break;
@@ -260,7 +284,7 @@ bool CombatSystem::canPerformAttack(Entity* entityAttacker, Entity* entityDefend
 	int defenderDefense = defenderDiceRoll + defenderCombat + defenderWeaponCombat;
 
 	attackerDefense = attackerDefense - maneurverCombatPenalty;
-
+	
 	return attackerDefense > defenderDefense;
 }
 

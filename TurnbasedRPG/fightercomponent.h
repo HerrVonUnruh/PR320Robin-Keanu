@@ -71,11 +71,11 @@ public:
     {
         {"1_show_Hitpoints", 20},
         {"2_hide_MaxHitpoints", 20},
-        {"3_show_Strength", 5},
-        {"4_show_Dexterity", 5},
-        {"5_show_Initiative", 5},
-        {"6_hide_Constitution", 5},
-        {"7_hide_Combat", 5}
+        {"3_show_Strength", 0},
+        {"4_show_Dexterity", 0},
+        {"5_show_Initiative", 0},
+        {"6_hide_Constitution", 0},
+        {"7_hide_Combat", 0}
     };
 
     std::map<std::string, int> defaultBossFighterStats[3] =
@@ -148,22 +148,22 @@ public:
             {"7_hide_Combat", 1}
         },
         {//monster 5
-            {"1_show_Hitpoints", 5},
+            {"1_show_Hitpoints", 500},
             {"2_hide_MaxHitpoints", 5},
-            {"3_show_Strength", 5},
+            {"3_show_Strength", 0},
             {"4_show_Dexterity", 1},
             {"5_show_Initiative", 1},
             {"6_hide_Constitution", 1},
-            {"7_hide_Combat", 2}
+            {"7_hide_Combat", 0}
         },
         {//monster 6
-            {"1_show_Hitpoints", 6},
+            {"1_show_Hitpoints", 0},
             {"2_hide_MaxHitpoints", 6},
-            {"3_show_Strength", 1},
+            {"3_show_Strength", 0},
             {"4_show_Dexterity", 3},
             {"5_show_Initiative", 1},
             {"6_hide_Constitution", 2},
-            {"7_hide_Combat", 2}
+            {"7_hide_Combat", 0}
         },
         {//monster 7
             {"1_show_Hitpoints", 4},
