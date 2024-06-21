@@ -64,6 +64,35 @@ void CombatSystem::Init()
 		statPointsToSpend--;
 	}
 
+
+	bool hasPickedWeapon = false;
+	while (!hasPickedWeapon)
+	{
+		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
+
+		int lineAmount = 0;
+		uiDriver uiDriver;
+		std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
+
+		std::string* menuItems = new std::string[3];
+		std::map<std::string, int> nameWeaponMap;
+
+
+		for (int i = 0; i < 3; i++)
+		{
+			menuItems[i] = uiDriver.weapons[i];
+			nameWeaponMap[menuItems[i]] = i;
+		}
+
+		int lastMenuIndex = 0;
+		int lasteMenuIndexOffset = 0;
+		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Choose a Weapon :", menuItems, 3, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
+
+		playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[nameWeaponMap.at(pickedMenuItem)];
+
+		hasPickedWeapon = true;
+	}
+
 	_entities.push_back(std::move(player));
 	_player = player.get();
 }
