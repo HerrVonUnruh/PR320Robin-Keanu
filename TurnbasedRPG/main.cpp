@@ -13,12 +13,12 @@ int main()
 
     while (true)//!combatSystem->IsGameOver())
     {
+        system("cls");
         Entity combatSystemEntity;
         CombatSystem* combatSystem = combatSystemEntity.AddComponent<CombatSystem>();
 
-        system("cls");
         combatSystem->Update();
-        system("pause");
+        //system("pause");
     }
 
     while (false)

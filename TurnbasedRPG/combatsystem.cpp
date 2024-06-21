@@ -114,13 +114,11 @@ void CombatSystem::Update()
 	random_shuffle(numbers.begin(), numbers.end());
 
 	//Create enemies
-	int numEnemies = (rand() % 4) + 1;
-	if (numEnemies == 1)
-	{
-		numEnemies++;
-	}
+	int numEnemies =  2 + (rand() % 3);
 
 	int* monsterIDS = new int[numEnemies];
+	std::map<std::string, int>* enemyFighterStats = new std::map<std::string, int>[numEnemies];
+
 	for (int i = 0; i < numEnemies; ++i)
 	{
 		std::unique_ptr<Entity> enemy = std::make_unique<Entity>();
@@ -134,12 +132,15 @@ void CombatSystem::Update()
 
 		enemyFighterComponent->fighterStats = enemyFighterComponent->defaultMonsterFighterStats[i + 4];
 		enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[rand() % 3];
+		enemyFighterStats[i] = enemyFighterComponent->fighterStats;
 
 		_entities.push_back(std::move(enemy));
 	}
 
-	uiDriver.drawTopLine();
+	//uiDriver.drawTopLine();
 	uiDriver.displayMonster(monsterIDS, numEnemies);
+	uiDriver.displayMonsterStats(enemyFighterStats, numEnemies);
+	uiDriver.drawCenterLine();
 
 	sortEntitiesByStat(_entities, "5_show_Initiative");
 
@@ -210,9 +211,9 @@ void CombatSystem::Update()
 
 		if (_entities[i].get()->entityType == entityType::player)
 		{
-			std::cout << "der player pos: " + std::to_string(i) << std::endl;
+			//std::cout << "der player pos: " + std::to_string(i) << std::endl;
 
-			std::cout << "der player lebt so: " + std::to_string(currentEntity->GetComponent<FighterComponent>()->fighterStats.at("1_show_Hitpoints")) << std::endl;
+			//std::cout << "der player lebt so: " + std::to_string(currentEntity->GetComponent<FighterComponent>()->fighterStats.at("1_show_Hitpoints")) << std::endl;
 		}
 	}
 	//FightingLocig(entitunique ptr);
@@ -266,7 +267,7 @@ void CombatSystem::Update()
 	//Update IsGameOver
 }
 
-bool CombatSystem::canPerformAttack(Entity* entityAttacker, Entity* entityDefender, int maneurverCombatPenalty)
+bool CombatSystem::canPerformAttack(Entity* entityAttacker, Entity* entityDefender, int maneuverCombatPenalty)
 {
 	FighterComponent* attackerFighterComponent = entityAttacker->GetComponent<FighterComponent>();
 	FighterComponent* defenderFighterComponent = entityDefender->GetComponent<FighterComponent>();
@@ -282,11 +283,38 @@ bool CombatSystem::canPerformAttack(Entity* entityAttacker, Entity* entityDefend
 
 	int attackerDefense = attackerDiceRoll + attackerCombat + attackerWeaponCombat;
 	int defenderDefense = defenderDiceRoll + defenderCombat + defenderWeaponCombat;
+	attackerDefense = attackerDefense - maneuverCombatPenalty;
 
-	attackerDefense = attackerDefense - maneurverCombatPenalty;
-	
-	return attackerDefense > defenderDefense;
+	uiDriver uiDriver1;
+
+	FighterComponent* playerFighterComponent = nullptr;
+	for (int i = 0; i < _entities.size(); i++)
+	{
+		if (_entities[i].get()->entityType == entityType::player)
+		{
+			playerFighterComponent = _entities[i].get()->GetComponent<FighterComponent>();
+			break;
+		}
+	}
+
+	if (attackerFighterComponent != playerFighterComponent)
+	{
+		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
+
+		int lineAmount = 0;
+		std::string* lines = uiDriver1.generatePlayerStatsLines(fighterStats, lineAmount);
+		std::string menuItems[1] = { "ok" };
+		int lastMenuIndex = 0;
+		int lastMenuIndexOffset = 0;
+
+		uiDriver1.drawMenu(lines, lineAmount, uiDriver1.getNameFromEnemy(entityAttacker->entitySubType) + " tries to Attack :", menuItems, 1, lastMenuIndex, lastMenuIndexOffset);
+	}
+
+	bool canPerform = attackerDefense > defenderDefense;
+
+	return canPerform;
 }
+
 
 
 void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* forcedTargetEnity, bool forceTargetEnemy, bool doDoubleDamage)
@@ -332,10 +360,32 @@ void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* force
 		totalDamage = totalDamage * 2;
 	}
 
-	std::cout << "                                                                              damage done:" + std::to_string(totalDamage) << std::endl;
-	std::cout << "                                                                              before attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
+	//std::cout << "                                                                              damage done:" + std::to_string(totalDamage) << std::endl;
+	//std::cout << "                                                                              before attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
+
+	uiDriver uiDriver1;
+
+	FighterComponent* playerFighterComponent = nullptr;
+	for (int i = 0; i < _entities.size(); i++)
+	{
+		if (_entities[i].get()->entityType == entityType::player)
+		{
+			playerFighterComponent = _entities[i].get()->GetComponent<FighterComponent>();
+			break;
+		}
+	}
+
+	std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
+
+	int lineAmount = 0;
+	std::string* lines = uiDriver1.generatePlayerStatsLines(fighterStats, lineAmount);
+	std::string menuItems[1] = { "ok" };
+	int lastMenuIndex = 0;
+	int lastMenuIndexOffset = 0;
+
+	uiDriver1.drawMenu(lines, lineAmount, "Damage done " + std::to_string(totalDamage) + " :", menuItems, 1, lastMenuIndex, lastMenuIndexOffset);
 
 	defenderFighterComponent->fighterStats.at("1_show_Hitpoints") = defenderFighterComponent->fighterStats.at("1_show_Hitpoints") - totalDamage;
 
-	std::cout << "                                                                              after attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
+	//std::cout << "                                                                              after attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
 };
