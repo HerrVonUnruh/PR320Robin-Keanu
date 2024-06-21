@@ -102,47 +102,68 @@ void CombatSystem::Init()
 }
 
 
-void CombatSystem::Update()
+void CombatSystem::Update(int level)
 {
 	uiDriver uiDriver;
 
-	std::vector<int> numbers;
-	for (int i = 1; i <= 10; ++i) {
-		numbers.push_back(i);
+
+	
+	if (_entities.size() == 1)
+	{
+		std::vector<int> numbers;
+		for (int i = 1; i <= 10; ++i) {
+			numbers.push_back(i);
+		}
+
+		random_shuffle(numbers.begin(), numbers.end());
+
+		int numEnemies = 2 + (rand() % 3);
+		int* monsterIDS = new int[numEnemies];
+		std::map<std::string, int>* enemyFighterStats = new std::map<std::string, int>[numEnemies];
+		//Create enemies
+		for (int i = 0; i < numEnemies; ++i)
+		{
+			std::unique_ptr<Entity> enemy = std::make_unique<Entity>();
+			FighterComponent* enemyFighterComponent = enemy->AddComponent<FighterComponent>();
+			InputComponent* input = enemy->AddComponent<AIInputComponent>();
+			input->SetCombatSystem(this);
+
+			enemy->entityType = entityType::enemy;
+			enemy->entitySubType = numbers[i]; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
+			monsterIDS[i] = enemy->entitySubType;
+
+			enemyFighterComponent->fighterStats = enemyFighterComponent->defaultMonsterFighterStats[i + 4];
+			enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[rand() % 3];
+			enemyFighterStats[i] = enemyFighterComponent->fighterStats;
+
+			_entities.push_back(std::move(enemy));
+		}
 	}
+	sortEntitiesByStat(_entities, "5_show_Initiative");
 
-	random_shuffle(numbers.begin(), numbers.end());
-
-	//Create enemies
-	int numEnemies =  2 + (rand() % 3);
-
+	int numEnemies = _entities.size() - 1;
 	int* monsterIDS = new int[numEnemies];
 	std::map<std::string, int>* enemyFighterStats = new std::map<std::string, int>[numEnemies];
 
-	for (int i = 0; i < numEnemies; ++i)
+
+	int ultracounter = 0;
+
+	for (int i = 0; i < _entities.size(); i++)
 	{
-		std::unique_ptr<Entity> enemy = std::make_unique<Entity>();
-		FighterComponent* enemyFighterComponent = enemy->AddComponent<FighterComponent>();
-		InputComponent* input = enemy->AddComponent<AIInputComponent>();
-		input->SetCombatSystem(this);
-
-		enemy->entityType = entityType::enemy;
-		enemy->entitySubType = numbers[i]; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
-		monsterIDS[i] = enemy->entitySubType;
-
-		enemyFighterComponent->fighterStats = enemyFighterComponent->defaultMonsterFighterStats[i + 4];
-		enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[rand() % 3];
-		enemyFighterStats[i] = enemyFighterComponent->fighterStats;
-
-		_entities.push_back(std::move(enemy));
+		if (_entities[i]->entityType == entityType::enemy)
+		{
+			monsterIDS[ultracounter] = _entities[i]->entitySubType;
+			enemyFighterStats[ultracounter] = _entities[i]->GetComponent<FighterComponent>()->fighterStats;
+			ultracounter++;
+		}
 	}
 
-	//uiDriver.drawTopLine();
+
+	uiDriver.drawTopLine();
 	uiDriver.displayMonster(monsterIDS, numEnemies);
 	uiDriver.displayMonsterStats(enemyFighterStats, numEnemies);
 	uiDriver.drawCenterLine();
 
-	sortEntitiesByStat(_entities, "5_show_Initiative");
 
 	for (int i = 0; i < _entities.size(); i++)
 	{

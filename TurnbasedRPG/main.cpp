@@ -10,14 +10,16 @@
 
 int main()
 {
+    Entity combatSystemEntity;
+    CombatSystem* combatSystem = combatSystemEntity.AddComponent<CombatSystem>();
 
-    while (true)//!combatSystem->IsGameOver())
+    int level = 1;
+    while (!combatSystem->IsGameOver())
     {
         system("cls");
-        Entity combatSystemEntity;
-        CombatSystem* combatSystem = combatSystemEntity.AddComponent<CombatSystem>();
-
-        combatSystem->Update();
+        
+        combatSystem->Update(level);
+        level++;
         //system("pause");
     }
 

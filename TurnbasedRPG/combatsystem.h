@@ -14,7 +14,7 @@ public:
     virtual ~CombatSystem();
 	virtual ComponentID GetID() const override { return ComponentID::CombatSystem; }
     virtual void Init() override;
-    virtual void Update() override;
+    virtual void Update(int level);
     bool IsGameOver() const { return gameOver; }
     std::vector<std::unique_ptr<Entity>>& GetEntities() { return _entities; }
 
