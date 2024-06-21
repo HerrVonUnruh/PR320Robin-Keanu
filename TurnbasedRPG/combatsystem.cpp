@@ -27,11 +27,13 @@ void CombatSystem::Init()
 
 	playerFighterComponent->fighterStats = playerFighterComponent->defaultPlayerFighterStats;
 	playerFighterComponent->currentweapon = playerFighterComponent->presetWeapons[2];
+	
 	int lastMenuIndex = 0;
+	int lasteMenuIndexOffset = 0;
+	bool wasInMenu = false;
+
 	while (statPointsToSpend > 0)
 	{
-
-
 		std::map<std::string, int> fighterStats = playerFighterComponent->fighterStats;
 		std::string* menuItems = new std::string[fighterStats.size() - 2];
 
@@ -39,24 +41,27 @@ void CombatSystem::Init()
 		uiDriver uiDriver;
 		std::string* lines = uiDriver.generatePlayerStatsLines(fighterStats, lineAmount);
 
-		int lasteMenuIndexOffset = 0;
+		std::map<std::string, std::string> nameStatMap;
 
-		// Skip the first two elements and populate menuItems with the keys
 		int index = 0;
 		for (auto it = fighterStats.begin(); it != fighterStats.end(); ++it)
 		{
 			if (index >= 2)
 			{
-				menuItems[index - 2] = it->first.substr(7);
+				menuItems[index - 2] = it->first.substr(7) + " (" + std::to_string(it->second) + ")";
+				nameStatMap[menuItems[index - 2]] = it->first;
 			}
 			index++;
 		}
 
-		// Example break condition (you can replace this with your actual logic)
-		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Give your player some more power :", menuItems, fighterStats.size() - 2, lastMenuIndex, lasteMenuIndexOffset, true);
+		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Give your player some more power :", menuItems, fighterStats.size() - 2, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
+		wasInMenu = true;
+		delete[] menuItems;
 
-
-		delete[] menuItems; // Don't forget to delete the allocated memory when done
+		fighterStats.at(nameStatMap.at(pickedMenuItem)) = fighterStats.at(nameStatMap.at(pickedMenuItem)) + 1;
+		
+		playerFighterComponent->fighterStats = fighterStats;
+		statPointsToSpend--;
 	}
 
 	_entities.push_back(std::move(player));
