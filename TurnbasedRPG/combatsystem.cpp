@@ -115,7 +115,7 @@ void CombatSystem::Update()
 		enemy->entitySubType = i + 5; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
 
 		enemyFighterComponent->fighterStats = enemyFighterComponent->defaultMonsterFighterStats[i + 4];
-		enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[0];
+		enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[rand() % 3];
 
 		_entities.push_back(std::move(enemy));
 	}
