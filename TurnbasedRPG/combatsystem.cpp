@@ -49,14 +49,25 @@ void CombatSystem::Update(int &level)
 	{
 		level++;
 
+
+		int maxSubType = 10;
+		int minSUbType = 1;
+		int numEnemies = 2 + (rand() % 3);
+
+		if (level % 3 == 0)
+		{
+			numEnemies = 1;
+			maxSubType = 2;
+			minSUbType = 0;
+		}
+
 		std::vector<int> numbers;
-		for (int i = 1; i <= 10; ++i) {
+		for (int i = minSUbType; i <= maxSubType; ++i) {
 			numbers.push_back(i);
 		}
 
 		random_shuffle(numbers.begin(), numbers.end());
 
-		int numEnemies = 2 + (rand() % 3);
 		int* monsterIDS = new int[numEnemies];
 		std::map<std::string, int>* enemyFighterStats = new std::map<std::string, int>[numEnemies];
 		//Create enemies
@@ -100,7 +111,7 @@ void CombatSystem::Update(int &level)
 			playerFighterComponent->currentweapon.damage += 1;
 		}
 
-		std::cout << std::to_string(playerFighterComponent->currentweapon.damage) << std::endl;
+		//std::cout << std::to_string(playerFighterComponent->currentweapon.damage) << std::endl;
 
 
 		if (statPointsToSpend == 0)
@@ -209,8 +220,17 @@ void CombatSystem::Update(int &level)
 
 	system("cls");
 	uiDriver.drawTopLine();
-	uiDriver.displayMonster(monsterIDS, numEnemies);
-	uiDriver.displayMonsterStats(enemyFighterStats, numEnemies);
+
+	if (level % 3 == 0)
+	{
+		uiDriver.displayBoss(monsterIDS[0]);
+	}
+	else
+	{
+		uiDriver.displayMonster(monsterIDS, numEnemies);
+	}
+
+		uiDriver.displayMonsterStats(enemyFighterStats, numEnemies);
 	uiDriver.drawCenterLine();
 
 
