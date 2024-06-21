@@ -54,6 +54,8 @@ void CombatSystem::Update()
         _entities.push_back(std::move(enemy));
     }
 
+    sortEntitiesByStat(_entities, "5_show_Initiative");
+
     uiDriver.drawTopLine();
     //uiDriver.displayMonster( ,numEnemies);
 
@@ -83,6 +85,8 @@ void CombatSystem::Update()
 
         if (_entities[i].get()->entityType == entityType::player)
         {
+            std::cout << "der player pos: " + std::to_string(i) << std::endl;
+        
             std::cout << "der player lebt so: " + std::to_string(currentEntity->GetComponent<FighterComponent>()->fighterStats.at("1_show_Hitpoints")) << std::endl;
         }
     }
@@ -99,13 +103,13 @@ void CombatSystem::Update()
     // fightercomponent getTarget 
     // fightercomponent getcombatManeuver
     // 
-    // 
+    // combat menuver picken
     // Würfeln!
     // Rechnen
     // Combat Spieler + combat WaffeSpieler + 20Seitiges Würfelergebnis
     // Combat Gegnger + combat WaffeGegner + 20Seitiges Würfelergebnis
     // 
-    // if ( Angreifer int > Verteidger int)
+    // if ( Angreifer int - 8 powerstrike shit > Verteidger int)
     // {
     //  Berechne DMG
     //  Würfeln!
@@ -137,11 +141,20 @@ void CombatSystem::Update()
     //Update IsGameOver
 }
 
-void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker)
+void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker, Entity* forcedTargetEnity, bool forceTargetEnemy, bool doDoubleDamage)
 {
     InputComponent *inputComponentAttacker = entityAttacker->GetComponent<InputComponent>();
 
-    Entity *entityDefender = inputComponentAttacker->GetTarget();
+    Entity* entityDefender;
+
+    if (!forcedTargetEnity)
+    {
+        entityDefender = inputComponentAttacker->GetTarget();
+    }
+    else
+    {
+        entityDefender = forcedTargetEnity;
+    }
 
     FighterComponent *attackerFighterComponent = entityAttacker->GetComponent<FighterComponent>();
     FighterComponent *defenderFighterComponent = entityDefender->GetComponent<FighterComponent>();
@@ -159,10 +172,16 @@ void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker)
 
     int potentialDamage = weaponDiceRoll + attackerStrenght + weaponDamage;
     int totalDamage = potentialDamage - defenderDexterity;
-
+    
     if (totalDamage <= 0)
     {
         totalDamage = 0;
+    }
+
+
+    if (doDoubleDamage)
+    {
+        totalDamage = totalDamage * 2;
     }
 
     std::cout << "                                                                              damage done:" + std::to_string(totalDamage) << std::endl;
