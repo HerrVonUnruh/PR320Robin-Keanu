@@ -46,7 +46,7 @@ void CombatSystem::Update()
         input->SetCombatSystem(this);
 
         enemy->entityType = entityType::enemy;
-        enemy->entitySubType = i + 4; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
+        enemy->entitySubType = i + 5; // HIER IST EIN KOMMIT FÜR KEANUUUUUUUUU
 
         enemyFighterComponent->fighterStats = enemyFighterComponent->defaultMonsterFighterStats[i + 4];
         enemyFighterComponent->currentweapon = enemyFighterComponent->presetWeapons[0];
@@ -59,11 +59,11 @@ void CombatSystem::Update()
 
     //std::map<std::string, int> fcs[] = {  }
     //uiDriver.displayMonsterStats();
-
     for (int i = 0; i < _entities.size(); i++)
     {
         Entity* currentEntity = _entities[i].get();//->GetComponent<InputComponent>()->GetTarget();
         //combatManeuvers combatManeuver = _entities[i].get()->GetComponent<InputComponent>()->GetCombatManeuver();
+
         calculateAndApplyDamage(currentEntity);
         
         /*std::cout << static_cast<int>(combatManeuver) << std::endl;
@@ -146,17 +146,29 @@ void CombatSystem::calculateAndApplyDamage(Entity* entityAttacker)
     FighterComponent *attackerFighterComponent = entityAttacker->GetComponent<FighterComponent>();
     FighterComponent *defenderFighterComponent = entityDefender->GetComponent<FighterComponent>();
 
-    int weaponDiceRoll = ((rand() % 5) + 1) * attackerFighterComponent->currentweapon.d6Amount;
+    int weaponDiceRoll = 0;
+        
+    for (int i = 0; i < attackerFighterComponent->currentweapon.d6Amount; i++)
+    {
+         weaponDiceRoll += (rand() % 5) + 1;
+    }
+
     int attackerStrenght = attackerFighterComponent->fighterStats.at("3_show_Strength");
     int weaponDamage = attackerFighterComponent->currentweapon.damage;
     int defenderDexterity = defenderFighterComponent->fighterStats.at("4_show_Dexterity");
 
     int potentialDamage = weaponDiceRoll + attackerStrenght + weaponDamage;
     int totalDamage = potentialDamage - defenderDexterity;
-    std::cout << "damage done:" + std::to_string(totalDamage) << std::endl;
-    std::cout << "before attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
+
+    if (totalDamage <= 0)
+    {
+        totalDamage = 0;
+    }
+
+    std::cout << "                                                                              damage done:" + std::to_string(totalDamage) << std::endl;
+    std::cout << "                                                                              before attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
 
     defenderFighterComponent->fighterStats.at("1_show_Hitpoints") = defenderFighterComponent->fighterStats.at("1_show_Hitpoints") - totalDamage;
 
-    std::cout << "after attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
+    std::cout << "                                                                              after attack life:" + std::to_string(defenderFighterComponent->fighterStats.at("1_show_Hitpoints")) << std::endl;
 };
