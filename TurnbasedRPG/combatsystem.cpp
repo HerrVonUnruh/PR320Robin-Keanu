@@ -54,7 +54,7 @@ void CombatSystem::Init()
 			index++;
 		}
 
-		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Give your player some more power :", menuItems, fighterStats.size() - 2, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
+		std::string pickedMenuItem = uiDriver.drawMenu(lines, lineAmount, "Give your player some more power (" + std::to_string(statPointsToSpend) + ") :", menuItems, fighterStats.size() - 2, lastMenuIndex, lasteMenuIndexOffset, wasInMenu);
 		wasInMenu = true;
 		delete[] menuItems;
 
